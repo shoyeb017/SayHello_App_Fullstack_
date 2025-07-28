@@ -7,10 +7,10 @@ import 'providers/language_provider.dart';
 import 'l10n/app_localizations.dart';
 
 import 'screens/auth/landing_page.dart';
-import 'package:sayhello_app_frontend/screens/auth/learner_signin.dart';
-import 'package:sayhello_app_frontend/screens/auth/instructor_signin.dart';
-import 'package:sayhello_app_frontend/screens/auth/learner_signup.dart';
-import 'package:sayhello_app_frontend/screens/auth/instructor_signup.dart';
+import 'package:frontend_sayhello_app/screens/auth/learner_signin.dart';
+import 'package:frontend_sayhello_app/screens/auth/instructor_signin.dart';
+import 'package:frontend_sayhello_app/screens/auth/learner_signup.dart';
+import 'package:frontend_sayhello_app/screens/auth/instructor_signup.dart';
 
 import 'screens/learner/learner_main_tab.dart';
 import 'screens/instructor/instructor_main_tab.dart';
