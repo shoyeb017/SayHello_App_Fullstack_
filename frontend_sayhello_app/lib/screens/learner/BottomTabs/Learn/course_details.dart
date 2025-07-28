@@ -575,7 +575,9 @@ class CourseDetails extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 6),
+
+
+          const SizedBox(height: 8),
           Expanded(
             child: Text(
               value,
