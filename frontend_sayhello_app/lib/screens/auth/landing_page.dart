@@ -409,5 +409,4 @@ class _LandingPageState extends State<LandingPage>
     }).toList();
   }
 }
-git config --global user.name "ummeanjumansadia"
-git config --global user.email "ummeanjumansadia2028@gmail.com"
+// This file is part of the SayHello App project.
