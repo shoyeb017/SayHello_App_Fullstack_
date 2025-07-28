@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../l10n/app_localizations.dart';
 
-class InstructorSignInPage extends StatefulWidget {
-  const InstructorSignInPage({super.key});
+class InstructorSignupPage extends StatefulWidget {
+  const InstructorSignupPage({super.key});
 
   @override
-  State<InstructorSignInPage> createState() => _InstructorSignInPageState();
+  State<InstructorSignupPage> createState() => _InstructorSignupPageState();
 }
 
-class _InstructorSignInPageState extends State<InstructorSignInPage> {
+class _InstructorSignupPageState extends State<InstructorSignupPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
