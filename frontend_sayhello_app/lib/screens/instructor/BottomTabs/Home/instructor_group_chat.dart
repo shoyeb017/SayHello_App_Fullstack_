@@ -480,7 +480,11 @@ class _InstructorGroupChatTabState extends State<InstructorGroupChatTab> {
               child: TextField(
                 controller: announcementController,
                 maxLines: 4,
-                style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                style: TextStyle(
+                  color: isDark
+                      ? const Color.fromARGB(255, 247, 245, 245)
+                      : Colors.black,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Type your announcement...',
                   hintStyle: TextStyle(
@@ -501,7 +505,9 @@ class _InstructorGroupChatTabState extends State<InstructorGroupChatTab> {
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                  color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  color: isDark
+                      ? const Color.fromARGB(255, 159, 155, 155)
+                      : Colors.grey[600],
                 ),
               ),
             ),
@@ -526,7 +532,7 @@ class _InstructorGroupChatTabState extends State<InstructorGroupChatTab> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF7A54FF),
+                backgroundColor: const Color.fromARGB(255, 79, 38, 227),
               ),
               child: const Text('Send', style: TextStyle(color: Colors.white)),
             ),
