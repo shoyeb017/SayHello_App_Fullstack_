@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../../../../providers/theme_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'feed_detail_page.dart';
+import '../../Notifications/notifications.dart';
+import '../../../../providers/settings_provider.dart';
 
 // Data Models for Backend Integration
 class FeedPost {
@@ -295,137 +297,149 @@ class _FeedPageState extends State<FeedPage>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        scrolledUnderElevation: 0,
-        title: Row(
-          children: [
-            const SizedBox(width: 10),
-            // Theme toggle button
-            IconButton(
-              icon: Icon(
-                themeProvider.themeMode == ThemeMode.dark
-                    ? Icons
-                          .light_mode // Currently dark → show light icon
-                    : Icons.dark_mode, // Currently light → show dark icon
-              ),
-              onPressed: () {
-                bool toDark = themeProvider.themeMode != ThemeMode.dark;
-                themeProvider.toggleTheme(toDark);
-              },
-            ),
-            Expanded(
-              child: Text(
-                AppLocalizations.of(context)!.feed,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-            ),
-            Stack(
-              children: [
-                Icon(
-                  Icons.notifications_none,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(92),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          scrolledUnderElevation: 0,
+          title: Row(
+            children: [
+              // 🔧 SETTINGS ICON - This is the settings button in the app bar
+              // Click this to open the settings bottom sheet with theme and language options
+              IconButton(
+                icon: Icon(
+                  Icons.settings,
                   color: isDark ? Colors.white : Colors.black,
                 ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
+                onPressed: () =>
+                    SettingsProvider.showSettingsBottomSheet(context),
+              ),
+
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)!.feed,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+              ),
+
+              // 🔔 NOTIFICATION ICON - This is the notification button in the app bar
+              Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.notifications_outlined,
+                      color: isDark ? Colors.white : Colors.black,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 12,
-                      minHeight: 12,
-                    ),
-                    child: const Text(
-                      '3',
-                      style: TextStyle(color: Colors.white, fontSize: 8),
-                      textAlign: TextAlign.center,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationsPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  // Red dot for unread notifications
+                  Positioned(
+                    right: 11,
+                    top: 11,
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(minWidth: 12, minHeight: 12),
+                      child: Text(
+                        '3', // Number of unread notifications
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 16),
-            Icon(Icons.edit, color: isDark ? Colors.white : Colors.black),
-            const SizedBox(width: 16),
-          ],
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40),
-          child: Container(
-            height: 40,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: TabBar(
-              controller: _tabController,
-              indicator: const BoxDecoration(),
-              labelPadding: EdgeInsets.zero,
-              dividerColor: Colors.transparent,
-              tabs: [
-                Tab(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _tabController.index == 0
-                          ? (isDark
-                                ? const Color(0xFF311c85)
-                                : const Color(0xFFefecff))
-                          : (isDark
-                                ? Colors.grey.shade800
-                                : Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.recent,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: _tabController.index == 0
-                              ? const Color(0xFF7758f3)
-                              : (isDark ? Colors.white : Colors.black),
+                ],
+              ),
+            ],
+          ),
+
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(40),
+            child: Container(
+              height: 40,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: TabBar(
+                controller: _tabController,
+                indicator: const BoxDecoration(),
+                labelPadding: EdgeInsets.zero,
+                dividerColor: Colors.transparent,
+                tabs: [
+                  Tab(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _tabController.index == 0
+                            ? (isDark
+                                  ? const Color(0xFF311c85)
+                                  : const Color(0xFFefecff))
+                            : (isDark
+                                  ? Colors.grey.shade800
+                                  : Colors.grey.shade200),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.recent,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: _tabController.index == 0
+                                ? const Color(0xFF7758f3)
+                                : (isDark ? Colors.white : Colors.black),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Tab(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _tabController.index == 1
-                          ? (isDark
-                                ? const Color(0xFF311c85)
-                                : const Color(0xFFefecff))
-                          : (isDark
-                                ? Colors.grey.shade800
-                                : Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.forYou,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: _tabController.index == 1
-                              ? const Color(0xFF7758f3)
-                              : (isDark ? Colors.white : Colors.black),
+                  Tab(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _tabController.index == 1
+                            ? (isDark
+                                  ? const Color(0xFF311c85)
+                                  : const Color(0xFFefecff))
+                            : (isDark
+                                  ? Colors.grey.shade800
+                                  : Colors.grey.shade200),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.forYou,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: _tabController.index == 1
+                                ? const Color(0xFF7758f3)
+                                : (isDark ? Colors.white : Colors.black),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -908,9 +922,9 @@ class _FeedPostCardState extends State<FeedPostCard> {
             size: 20,
           ),
         ),
-        const SizedBox(width: 16),
+        // const SizedBox(width: 16),
         // Share button
-        Icon(Icons.share, color: iconColor, size: 20),
+        // Icon(Icons.share, color: iconColor, size: 20),
       ],
     );
   }

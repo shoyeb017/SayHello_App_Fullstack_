@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../providers/settings_provider.dart';
+import '../../../../services/azure_translator_service.dart';
+import '../../../../services/azure_speech_service.dart';
 
 class TranslatorInHome extends StatefulWidget {
   const TranslatorInHome({super.key});
@@ -15,54 +19,158 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
   String sourceLang = "English";
   String targetLang = "Japanese";
   String translatedText = "";
+  String transliteratedText = "";
   String selectedLang = "";
   bool isSelectingSource = true;
+  bool isTranslating = false;
+  bool isDetectingLanguage = false;
+  bool isAzureConfigured = false;
+  bool isSpeakingInput = false;
+  bool isSpeakingOutput = false;
 
-  final Map<String, String> fakeTranslations = {
-    "hello": "こんにちは",
-    "goodbye": "さようなら",
-    "thank you": "ありがとう",
-    "yes": "はい",
-    "no": "いいえ",
-  };
+  @override
+  void initState() {
+    super.initState();
+    _checkAzureConfiguration();
+    _inputController.addListener(() {
+      setState(() {}); // Update UI when text changes
+    });
+  }
+
+  Future<void> _checkAzureConfiguration() async {
+    final configured = await AzureTranslatorService.isConfigured();
+    setState(() {
+      isAzureConfigured = configured;
+    });
+  }
 
   final List<String> allLanguages = [
     "English",
-    "Chinese Simplified",
+    "Spanish",
     "Japanese",
     "Korean",
-    "Spanish",
-    "French",
-    "Portuguese",
+    "Bengali",
   ];
 
   String _getSubtitle(String lang) {
     switch (lang) {
       case "English":
         return "English";
-      case "Chinese Simplified":
-        return "中文(简体)";
+      case "Spanish":
+        return "Español";
       case "Japanese":
         return "日本語";
       case "Korean":
         return "한국어";
-      case "Spanish":
-        return "Español";
-      case "French":
-        return "Français";
-      case "Portuguese":
-        return "Português";
+      case "Bengali":
+        return "বাংলা";
       default:
         return "";
     }
   }
 
-  void _translate() {
-    String text = _inputController.text.trim().toLowerCase();
+  void _translate() async {
+    String text = _inputController.text.trim();
+
+    if (text.isEmpty) {
+      setState(() {
+        translatedText = "";
+        transliteratedText = "";
+      });
+      return;
+    }
+
     setState(() {
-      translatedText =
-          fakeTranslations[text] ?? "Translation not available (dummy)";
+      isTranslating = true;
+      translatedText = "";
+      transliteratedText = "";
     });
+
+    try {
+      // Get translation
+      final result = await AzureTranslatorService.translateText(
+        text: text,
+        sourceLanguage: sourceLang,
+        targetLanguage: targetLang,
+      );
+
+      // Get transliteration if available
+      String? transliteration;
+      try {
+        transliteration = await AzureTranslatorService.transliterateText(
+          text: result,
+          language: targetLang,
+        );
+      } catch (e) {
+        // Transliteration failed, but translation succeeded
+        transliteration = null;
+      }
+
+      setState(() {
+        translatedText = result;
+        transliteratedText = transliteration ?? "";
+        isTranslating = false;
+      });
+    } catch (e) {
+      setState(() {
+        translatedText =
+            "${AppLocalizations.of(context)!.translationFailed}: ${e.toString()}";
+        transliteratedText = "";
+        isTranslating = false;
+      });
+    }
+  }
+
+  void _detectLanguage() async {
+    String text = _inputController.text.trim();
+
+    if (text.isEmpty) return;
+
+    setState(() {
+      isDetectingLanguage = true;
+    });
+
+    try {
+      final detectedLang = await AzureTranslatorService.detectLanguage(text);
+
+      if (detectedLang != 'Unknown' && allLanguages.contains(detectedLang)) {
+        setState(() {
+          sourceLang = detectedLang;
+          isDetectingLanguage = false;
+        });
+
+        // Show snackbar to inform user
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${AppLocalizations.of(context)!.detectedLanguage}: $detectedLang',
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      } else {
+        setState(() {
+          isDetectingLanguage = false;
+        });
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.failedToDetectLanguage,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      setState(() {
+        isDetectingLanguage = false;
+      });
+    }
   }
 
   void _swapLanguages() {
@@ -71,6 +179,7 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
       sourceLang = targetLang;
       targetLang = temp;
       translatedText = "";
+      transliteratedText = "";
       _inputController.clear();
     });
   }
@@ -95,8 +204,131 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
     Navigator.pop(context);
   }
 
+  void _copyToClipboard(String text, String type) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '$type ${AppLocalizations.of(context)!.copiedToClipboard}',
+        ),
+        duration: const Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  Future<void> _speakInputText() async {
+    final text = _inputController.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      isSpeakingInput = true;
+    });
+
+    try {
+      final success = await AzureSpeechService.speakText(
+        text: text,
+        language: sourceLang,
+      );
+
+      if (!success) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.failedToPlaySpeech),
+              duration: const Duration(seconds: 2),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${AppLocalizations.of(context)!.speechError}: ${e.toString()}',
+            ),
+            duration: const Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isSpeakingInput = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _speakOutputText() async {
+    if (translatedText.isEmpty ||
+        translatedText.startsWith(
+          AppLocalizations.of(context)!.translationFailed,
+        ))
+      return;
+
+    setState(() {
+      isSpeakingOutput = true;
+    });
+
+    try {
+      final success = await AzureSpeechService.speakText(
+        text: translatedText,
+        language: targetLang,
+      );
+
+      if (!success) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.failedToPlaySpeech),
+              duration: const Duration(seconds: 2),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${AppLocalizations.of(context)!.speechError}: ${e.toString()}',
+            ),
+            duration: const Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isSpeakingOutput = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _stopSpeech() async {
+    await AzureSpeechService.stopSpeaking();
+    setState(() {
+      isSpeakingInput = false;
+      isSpeakingOutput = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    AzureSpeechService.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     List<String> filteredLanguages = allLanguages
         .where(
           (lang) =>
@@ -120,7 +352,15 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.bookmark_border), onPressed: () {}),
+          // 🔧 SETTINGS ICON - This is the settings button in the app bar
+          // Click this to open the settings bottom sheet with theme and language options
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: isDark ? Colors.white : Colors.black,
+            ),
+            onPressed: () => SettingsProvider.showSettingsBottomSheet(context),
+          ),
         ], // forces NO icons on the right
       ),
 
@@ -264,6 +504,36 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Service Status Indicator
+                  if (!isAzureConfigured)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.orange.withOpacity(0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.info, color: Colors.orange, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Demo mode: Using fallback translations. Configure Azure credentials in the service code for full functionality.',
+                              style: TextStyle(
+                                color: Colors.orange.shade700,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
                   // Language Selector Row
                   Container(
                     decoration: BoxDecoration(
@@ -377,12 +647,47 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          sourceLang,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : Colors.black,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              sourceLang,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? Colors.white : Colors.black,
+                              ),
+                            ),
+                            // Detect Language Button
+                            TextButton.icon(
+                              onPressed: isDetectingLanguage
+                                  ? null
+                                  : _detectLanguage,
+                              icon: isDetectingLanguage
+                                  ? SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.deepPurple,
+                                            ),
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.auto_awesome,
+                                      size: 16,
+                                      color: Colors.deepPurple,
+                                    ),
+                              label: Text(
+                                AppLocalizations.of(context)!.detect,
+                                style: TextStyle(
+                                  color: Colors.deepPurple,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 8),
                         TextField(
@@ -402,6 +707,48 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 12),
+                        // Listen to input text button
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed:
+                                  (_inputController.text.trim().isEmpty ||
+                                      isSpeakingInput)
+                                  ? null
+                                  : (isSpeakingOutput
+                                        ? _stopSpeech
+                                        : _speakInputText),
+                              icon: isSpeakingInput
+                                  ? SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.deepPurple,
+                                            ),
+                                      ),
+                                    )
+                                  : Icon(
+                                      isSpeakingOutput
+                                          ? Icons.stop
+                                          : Icons.volume_up,
+                                      color:
+                                          _inputController.text.trim().isEmpty
+                                          ? Colors.grey
+                                          : Colors.deepPurple,
+                                    ),
+                              tooltip: isSpeakingInput
+                                  ? AppLocalizations.of(context)!.speaking
+                                  : isSpeakingOutput
+                                  ? AppLocalizations.of(context)!.stopSpeech
+                                  : AppLocalizations.of(context)!.listenToText,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -410,9 +757,24 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
 
                   // Translate Button
                   ElevatedButton.icon(
-                    onPressed: _translate,
-                    icon: const Icon(Icons.translate),
-                    label: Text(AppLocalizations.of(context)!.translate),
+                    onPressed: isTranslating ? null : _translate,
+                    icon: isTranslating
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Icon(Icons.translate),
+                    label: Text(
+                      isTranslating
+                          ? AppLocalizations.of(context)!.translating
+                          : AppLocalizations.of(context)!.translate,
+                    ),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
                       backgroundColor: Colors.deepPurple,
@@ -427,22 +789,245 @@ class _TranslatorInHomeState extends State<TranslatorInHome> {
 
                   // Translated Text Output
                   if (translatedText.isNotEmpty)
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: boxColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        translatedText,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: isDark ? Colors.white : Colors.black,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Translation Container
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: boxColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Header with language and copy button
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    targetLang,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: isDark
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () => _copyToClipboard(
+                                      translatedText,
+                                      AppLocalizations.of(context)!.translation,
+                                    ),
+                                    icon: Icon(
+                                      Icons.copy,
+                                      size: 20,
+                                      color: Colors.deepPurple,
+                                    ),
+                                    tooltip: AppLocalizations.of(
+                                      context,
+                                    )!.copyTranslation,
+                                  ),
+                                ],
+                              ),
+                              // Translation text
+                              Text(
+                                translatedText,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: isDark ? Colors.white : Colors.black,
+                                ),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
+                              const SizedBox(height: 12),
+                              // Listen to output text button
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    onPressed:
+                                        (translatedText.isEmpty ||
+                                            translatedText.startsWith(
+                                              AppLocalizations.of(
+                                                context,
+                                              )!.translationFailed,
+                                            ) ||
+                                            isSpeakingOutput)
+                                        ? null
+                                        : (isSpeakingInput
+                                              ? _stopSpeech
+                                              : _speakOutputText),
+                                    icon: isSpeakingOutput
+                                        ? SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                    Colors.deepPurple,
+                                                  ),
+                                            ),
+                                          )
+                                        : Icon(
+                                            isSpeakingInput
+                                                ? Icons.stop
+                                                : Icons.volume_up,
+                                            color:
+                                                (translatedText.isEmpty ||
+                                                    translatedText.startsWith(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.translationFailed,
+                                                    ))
+                                                ? Colors.grey
+                                                : Colors.deepPurple,
+                                          ),
+                                    tooltip: isSpeakingOutput
+                                        ? AppLocalizations.of(context)!.speaking
+                                        : isSpeakingInput
+                                        ? AppLocalizations.of(
+                                            context,
+                                          )!.stopSpeech
+                                        : AppLocalizations.of(
+                                            context,
+                                          )!.listenToTranslation,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.visible,
-                      ),
+
+                        // Transliteration Container (if available)
+                        if (transliteratedText.isNotEmpty) ...[
+                          const SizedBox(height: 12),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.deepPurple.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.deepPurple.withOpacity(0.3),
+                                width: 1,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Header with label and copy button
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.record_voice_over,
+                                          size: 16,
+                                          color: Colors.deepPurple,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.pronunciation,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.deepPurple,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () => _copyToClipboard(
+                                        transliteratedText,
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.pronunciation,
+                                      ),
+                                      icon: Icon(
+                                        Icons.copy,
+                                        size: 16,
+                                        color: Colors.deepPurple,
+                                      ),
+                                      tooltip: AppLocalizations.of(
+                                        context,
+                                      )!.copyPronunciation,
+                                    ),
+                                  ],
+                                ),
+                                // Transliteration text
+                                Text(
+                                  transliteratedText,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.deepPurple.shade700,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+
+                        // Transliteration unavailable message (when translation exists but no transliteration)
+                        if (translatedText.isNotEmpty &&
+                            transliteratedText.isEmpty &&
+                            isAzureConfigured &&
+                            !translatedText.startsWith(
+                              AppLocalizations.of(context)!.translationFailed,
+                            ) &&
+                            !translatedText.contains(
+                              AppLocalizations.of(
+                                context,
+                              )!.azureCredentialsNotConfigured,
+                            )) ...[
+                          const SizedBox(height: 12),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(0.3),
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                  color: Colors.grey.shade600,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.pronunciationGuideNotAvailable,
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                 ],
               ),

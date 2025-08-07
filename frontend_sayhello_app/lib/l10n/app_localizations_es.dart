@@ -37,7 +37,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get and => 'y';
 
   @override
-  String get hello => 'Hola';
+  String get hello => 'Hola,';
 
   @override
   String get language => 'Idioma';
@@ -52,7 +52,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get instructorSignIn => 'Iniciar Sesión de Instructor';
 
   @override
-  String get welcomeBack => 'Bienvenido de Vuelta';
+  String get welcomeBack => '¡Bienvenido de vuelta!';
 
   @override
   String get signInToContinue => 'Inicia sesión para continuar aprendiendo.';
@@ -143,6 +143,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get korean => 'Coreano';
 
   @override
+  String get bengali => 'Bengalí';
+
+  @override
+  String get languageChangedTo => 'Idioma cambiado a';
+
+  @override
   String get profilePhoto => 'Foto de Perfil';
 
   @override
@@ -179,7 +185,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings => 'Configuración';
 
   @override
-  String get logout => 'Cerrar Sesión';
+  String get logout => 'Cerrar sesión';
 
   @override
   String get step1PersonalInfo => 'Paso 1: Información Personal';
@@ -200,7 +206,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get chooseDOB => 'Elegir Fecha de Nacimiento';
 
   @override
-  String get next => 'Siguiente';
+  String get next => 'Próximas';
 
   @override
   String get back => 'Atrás';
@@ -463,7 +469,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get finish => 'Finalizar';
 
   @override
-  String get done => 'Hecho';
+  String get done => 'Completadas';
 
   @override
   String get complete => 'Completo';
@@ -554,15 +560,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get justNow => 'Ahora mismo';
-
-  @override
-  String get minutesAgo => 'minutos atrás';
-
-  @override
-  String get hoursAgo => 'horas atrás';
-
-  @override
-  String get daysAgo => 'días atrás';
 
   @override
   String daysAgoCount(int count) {
@@ -916,7 +913,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get inProgress => 'En Progreso';
 
   @override
-  String get courseCompleted => '¡Curso completado exitosamente!';
+  String get courseCompleted => 'Curso Completado';
 
   @override
   String get viewAll => 'Ver Todo';
@@ -955,7 +952,311 @@ class AppLocalizationsEs extends AppLocalizations {
   String get recordedClasses => 'Clases Grabadas';
 
   @override
-  String get studyMaterials => 'Material de Estudio';
+  String get accessAllRecordedSessions =>
+      'Accede a todas las sesiones grabadas en cualquier momento';
+
+  @override
+  String get videoLibrary => 'Biblioteca de Videos';
+
+  @override
+  String get totalVideos => 'Total de Videos';
+
+  @override
+  String get totalDuration => 'Duración Total';
+
+  @override
+  String get totalSize => 'Tamaño Total';
+
+  @override
+  String get loadingVideoMetadata => 'Cargando metadatos del video...';
+
+  @override
+  String completeProgress(int percent) {
+    return '$percent% Completo';
+  }
+
+  @override
+  String get failedToLoadVideoMetadata => 'Error al cargar metadatos del video';
+
+  @override
+  String get noVideosAvailable => 'No hay videos disponibles';
+
+  @override
+  String get checkBackLaterForRecorded =>
+      'Vuelve más tarde para clases grabadas';
+
+  @override
+  String failedVideosCount(int failed, int total) {
+    return '$failed de $total videos fallaron al cargar metadatos';
+  }
+
+  @override
+  String get failedToLoad => 'Error al cargar';
+
+  @override
+  String get noDescriptionAvailable => 'No hay descripción disponible';
+
+  @override
+  String videoError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get unknownUploadDate => 'Desconocido';
+
+  @override
+  String get watchNow => 'Ver Ahora';
+
+  @override
+  String get videoMetadataLoadedSuccessfully =>
+      '✅ Metadatos del video cargados exitosamente';
+
+  @override
+  String get failedToLoadVideoMetadataSnackbar =>
+      '❌ Error al cargar metadatos del video';
+
+  @override
+  String errorMessage(String error) {
+    return '❌ Error: $error';
+  }
+
+  @override
+  String cannotPlayVideoError(String error) {
+    return '❌ No se puede reproducir el video: $error';
+  }
+
+  @override
+  String get loadingVideoPlayer => 'Cargando Reproductor de Video...';
+
+  @override
+  String videoDurationSize(String duration, String size) {
+    return 'Duración: $duration • Tamaño: $size';
+  }
+
+  @override
+  String get videoInformation => '📹 Información del Video:';
+
+  @override
+  String get videoTitle => 'Título del Video';
+
+  @override
+  String videoDurationInfo(String duration) {
+    return '• Duración: $duration';
+  }
+
+  @override
+  String videoStatusInfo(String status) {
+    return '• Estado: $status';
+  }
+
+  @override
+  String videoResolutionInfo(int width, int height) {
+    return '• Resolución: ${width}x$height';
+  }
+
+  @override
+  String get videoStatusLoaded => 'Cargado';
+
+  @override
+  String get videoStatusLoading => 'Cargando...';
+
+  @override
+  String get videoInfo => 'Info de Video';
+
+  @override
+  String get loadingVideo => 'Cargando video...';
+
+  @override
+  String get failedToLoadVideo => 'Error al cargar video';
+
+  @override
+  String get preparingVideo => 'Preparando video...';
+
+  @override
+  String get connectionTimeoutMessage =>
+      'Tiempo de espera agotado. Verifica tu conexión a internet e intenta de nuevo.';
+
+  @override
+  String get videoNotFoundMessage =>
+      'Video no encontrado. La URL del video puede ser inválida.';
+
+  @override
+  String get networkErrorMessage =>
+      'Error de red. Verifica tu conexión a internet.';
+
+  @override
+  String get videoLoadingTimeoutMessage =>
+      'Tiempo de carga del video agotado - Verifica tu conexión a internet';
+
+  @override
+  String videoErrorGeneric(String error) {
+    return 'Error de Video: $error';
+  }
+
+  @override
+  String get unknownError => 'Error desconocido';
+
+  @override
+  String get studyMaterials => 'Materiales de Estudio';
+
+  @override
+  String get downloadAndAccessMaterials =>
+      'Descarga y accede a materiales del curso';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get pdfs => 'PDFs';
+
+  @override
+  String get images => 'Imágenes';
+
+  @override
+  String get showMore => 'Mostrar Más';
+
+  @override
+  String get showLess => 'Mostrar Menos';
+
+  @override
+  String get untitledMaterial => 'Material Sin Título';
+
+  @override
+  String get noUrlAvailable => '❌ No hay URL disponible para este material';
+
+  @override
+  String openingFileType(String type) {
+    return 'Abriendo $type...';
+  }
+
+  @override
+  String get noUrlForDownload => '❌ No hay URL disponible para descarga';
+
+  @override
+  String get downloadFile => 'Descargar Archivo';
+
+  @override
+  String get downloadConfirmation =>
+      'Esto abrirá el archivo en tu navegador para descarga.';
+
+  @override
+  String fileTypeLabel(String type) {
+    return 'Tipo: $type';
+  }
+
+  @override
+  String get browserHandleDownload =>
+      'Tu navegador manejará la descarga a tu carpeta de descargas predeterminada.';
+
+  @override
+  String get openInBrowser => 'Abrir en Navegador';
+
+  @override
+  String get couldNotOpenBrowser =>
+      'No se pudo abrir el navegador. Enlace copiado al portapapeles.';
+
+  @override
+  String get failedToOpenBrowser => '❌ Error al abrir navegador';
+
+  @override
+  String get linkCopiedInstead => 'Enlace copiado al portapapeles en su lugar.';
+
+  @override
+  String get downloadLinkCopied =>
+      '📎 Enlace de descarga copiado al portapapeles';
+
+  @override
+  String get pasteAndGo => 'Pegar e Ir';
+
+  @override
+  String get downloadInstructions => 'Instrucciones de Descarga';
+
+  @override
+  String linkCopiedToClipboard(String item) {
+    return '$item copiado al portapapeles';
+  }
+
+  @override
+  String get toDownload => 'Para descargar:';
+
+  @override
+  String get openYourBrowser => '1. Abre tu navegador';
+
+  @override
+  String get pasteLinkInAddress =>
+      '2. Pega el enlace en la barra de direcciones';
+
+  @override
+  String get pressEnterToDownload =>
+      '3. Presiona Enter para iniciar la descarga';
+
+  @override
+  String get gotIt => 'Entendido';
+
+  @override
+  String failedToCopyLink(String error) {
+    return 'Error al copiar enlace: $error';
+  }
+
+  @override
+  String loadingFileTypeViewer(String type) {
+    return 'Cargando $type...';
+  }
+
+  @override
+  String get failedToLoadDocument => 'Error al cargar documento';
+
+  @override
+  String pdfLoadedPages(int pages) {
+    return 'PDF cargado: $pages páginas';
+  }
+
+  @override
+  String get loadingImage => 'Cargando imagen...';
+
+  @override
+  String get failedToLoadImage => 'Error al cargar imagen';
+
+  @override
+  String get checkImageUrl => 'Por favor verifica la URL de la imagen';
+
+  @override
+  String get documentOpenInBrowser =>
+      'Este documento se abrirá en tu navegador predeterminado o aplicación Google Docs';
+
+  @override
+  String get openDocument => 'Abrir Documento';
+
+  @override
+  String get goBack => 'Volver';
+
+  @override
+  String get unsupportedFileType => 'Tipo de archivo no soportado';
+
+  @override
+  String failedToOpenUrl(String error) {
+    return 'Error al abrir URL: $error';
+  }
+
+  @override
+  String get openingDocumentInBrowser => 'Abriendo documento en navegador...';
+
+  @override
+  String get errorOpeningBrowser =>
+      'Error al abrir el navegador. Enlace copiado al portapapeles.';
+
+  @override
+  String linkCopiedToClipboardViewer(String label) {
+    return '$label copiado al portapapeles';
+  }
+
+  @override
+  String failedToCopyLabel(String label) {
+    return 'Error al copiar $label';
+  }
+
+  @override
+  String get documentLink => 'Enlace del documento';
 
   @override
   String get groupChat => 'Chat Grupal';
@@ -1047,16 +1348,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get courseModules => 'Módulos del Curso';
 
   @override
-  String get accessAllRecordedSessions =>
-      'Accede a todas las sesiones grabadas en cualquier momento';
-
-  @override
-  String get totalVideos => 'Total de Videos';
-
-  @override
-  String get videoLibrary => 'Biblioteca de Videos';
-
-  @override
   String get newText => 'Nuevo';
 
   @override
@@ -1066,17 +1357,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get downloading => 'Descargando';
 
   @override
-  String get downloadAndAccessMaterials =>
-      'Descarga y accede a materiales del curso';
-
-  @override
   String get totalMaterials => 'Total de Materiales';
 
   @override
   String get downloaded => 'Descargado';
-
-  @override
-  String get totalSize => 'Tamaño Total';
 
   @override
   String get opening => 'Abriendo';
@@ -1094,7 +1378,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selfIntroduction => 'Autopresentación';
 
   @override
-  String get tellUsAboutYourself => 'Cuéntanos sobre ti...';
+  String get tellUsAboutYourself => 'Cuéntanos sobre ti';
 
   @override
   String get editBio => 'Editar biografía';
@@ -1121,10 +1405,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get learning => 'Aprendiendo';
 
   @override
-  String get addHobbies => 'Agregar aficiones';
+  String get addHobbies => 'Agregar pasatiempos';
 
   @override
-  String get selectHobbies => 'Seleccionar aficiones';
+  String get selectHobbies => 'Seleccionar pasatiempos';
 
   @override
   String get personalInformation => 'Información personal';
@@ -1140,7 +1424,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get birthdayUpdatedSuccessfully =>
-      '¡Cumpleaños actualizado exitosamente!';
+      'Cumpleaños actualizado exitosamente';
 
   @override
   String get theme => 'Tema';
@@ -1222,12 +1506,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get interestsAndHobbies => 'Intereses y aficiones';
 
   @override
-  String get showLess => 'Mostrar menos';
-
-  @override
-  String get showMore => 'Mostrar más';
-
-  @override
   String get messageButton => 'Mensaje';
 
   @override
@@ -1293,4 +1571,1689 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get enterCorrection => 'Ingresa la corrección...';
+
+  @override
+  String get justJoinedHT => 'Just joined HT';
+
+  @override
+  String get tapToSayHi => 'Tap to say Hi!';
+
+  @override
+  String get joinedShort => 'registrado';
+
+  @override
+  String daysJoined(String days) {
+    return '${days}d joined';
+  }
+
+  @override
+  String get areYouSureLogout => '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get editName => 'Editar nombre';
+
+  @override
+  String get enterYourName => 'Ingresa tu nombre';
+
+  @override
+  String get selectCountry => 'Seleccionar país';
+
+  @override
+  String get selectLearningLanguageLevel =>
+      'Seleccionar idioma de aprendizaje y nivel';
+
+  @override
+  String get level => 'Nivel';
+
+  @override
+  String get detect => 'Detectar';
+
+  @override
+  String get translating => 'Traduciendo...';
+
+  @override
+  String get translation => 'Traducción';
+
+  @override
+  String get copyTranslation => 'Copiar traducción';
+
+  @override
+  String get pronunciation => 'Pronunciación';
+
+  @override
+  String get copyPronunciation => 'Copiar pronunciación';
+
+  @override
+  String get pronunciationNotAvailable =>
+      'Pronunciation guide not available for this language';
+
+  @override
+  String get demoModeMessage =>
+      'Demo mode: Using fallback translations. Configure Azure credentials in the service code for full functionality.';
+
+  @override
+  String get detectedLanguage => 'Idioma detectado';
+
+  @override
+  String get couldNotDetectLanguage => 'Could not detect language';
+
+  @override
+  String copiedToClipboard(String label) {
+    return '$label copiado al portapapeles';
+  }
+
+  @override
+  String get failedToPlaySpeech => 'Falló la reproducción de voz';
+
+  @override
+  String get speechError => 'Error de voz';
+
+  @override
+  String get speaking => 'Hablando...';
+
+  @override
+  String get stopSpeech => 'Detener voz';
+
+  @override
+  String get listenToText => 'Escuchar texto';
+
+  @override
+  String get listenToTranslation => 'Escuchar traducción';
+
+  @override
+  String get translationFailed => 'Falló la traducción';
+
+  @override
+  String get failedToDetectLanguage => 'No se pudo detectar el idioma';
+
+  @override
+  String get pronunciationGuideNotAvailable =>
+      'Guía de pronunciación no disponible para este idioma';
+
+  @override
+  String get azureCredentialsNotConfigured =>
+      'Credenciales de Azure no configuradas';
+
+  @override
+  String get unknown => 'Desconocido';
+
+  @override
+  String get newSessionAvailable => 'Nueva Sesión Disponible';
+
+  @override
+  String sessionScheduled(
+    String courseName,
+    String instructorName,
+    String date,
+    String time,
+  ) {
+    return 'La sesión de $courseName ha sido programada por $instructorName el $date a las $time. ¡Únete ahora para mejorar tu aprendizaje!';
+  }
+
+  @override
+  String get courseFeedbackReceived => 'Comentario del Curso Recibido';
+
+  @override
+  String feedbackReceived(
+    String rating,
+    String courseName,
+    String instructorName,
+  ) {
+    return 'Recibiste una calificación de $rating estrellas para tu curso de $courseName del instructor $instructorName. ¡Sigue con el excelente trabajo!';
+  }
+
+  @override
+  String minutesAgo(String minutes) {
+    return 'hace ${minutes}m';
+  }
+
+  @override
+  String hoursAgo(String hours) {
+    return 'hace ${hours}h';
+  }
+
+  @override
+  String daysAgo(String days) {
+    return 'hace ${days}d';
+  }
+
+  @override
+  String weeksAgo(String weeks) {
+    return 'hace ${weeks}sem';
+  }
+
+  @override
+  String youHaveNewNotifications(String count, String plural) {
+    return 'Tienes $count nueva$plural notificación$plural';
+  }
+
+  @override
+  String get noNotificationsYet => 'Aún no hay notificaciones';
+
+  @override
+  String get allCaughtUp => '¡Estás al día! 🎉';
+
+  @override
+  String get searchYourCourseHere => 'Busca tu curso aquí...';
+
+  @override
+  String get myCourses => 'Mis Cursos';
+
+  @override
+  String get levelCategory => 'Categoría de Nivel';
+
+  @override
+  String get popularCourses => 'Cursos Populares';
+
+  @override
+  String get expiredCourses => 'Cursos Vencidos';
+
+  @override
+  String get sessions => 'Sesiones';
+
+  @override
+  String sessionsCount(String count) {
+    return '$count Sesiones';
+  }
+
+  @override
+  String get by => 'por';
+
+  @override
+  String byInstructor(String instructor) {
+    return 'por $instructor';
+  }
+
+  @override
+  String completedPercentage(String percentage) {
+    return '$percentage% completado';
+  }
+
+  @override
+  String get coursesCompleted => 'Completado';
+
+  @override
+  String get expired => 'Expirados';
+
+  @override
+  String get noEnrolledCourses => 'No hay cursos inscritos';
+
+  @override
+  String get searchCoursesByName =>
+      'Buscar por nombre del curso, instructor...';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get upcoming => 'Próximos';
+
+  @override
+  String get active => 'Activos';
+
+  @override
+  String get showPopularOnly => 'Mostrar solo populares';
+
+  @override
+  String coursesFound(String count, String plural) {
+    return '$count curso$plural encontrado$plural';
+  }
+
+  @override
+  String get courseDefault => 'Curso';
+
+  @override
+  String get navigationMenu => 'Menú de Navegación';
+
+  @override
+  String get closeCourse => 'Cerrar Curso';
+
+  @override
+  String get totalStat => 'Total';
+
+  @override
+  String get doneStat => 'Hecho';
+
+  @override
+  String get nextStat => 'Siguiente';
+
+  @override
+  String get nextSession => 'Siguiente Sesión';
+
+  @override
+  String get sessionDetails => 'Detalles de la Sesión';
+
+  @override
+  String get sessionLink => 'Enlace de la Sesión';
+
+  @override
+  String get joinNow => 'Unirse Ahora';
+
+  @override
+  String get sessionCompleted => 'Sesión Completada';
+
+  @override
+  String get untitledSession => 'Sesión Sin Título';
+
+  @override
+  String durationLabel(String duration) {
+    return 'Duración: $duration';
+  }
+
+  @override
+  String failedToCopy(String item) {
+    return 'Error al copiar $item';
+  }
+
+  @override
+  String openingSession(String platform) {
+    return 'Abriendo sesión de $platform en el navegador...';
+  }
+
+  @override
+  String get courseTitle => 'Título del Curso';
+
+  @override
+  String get meetYourInstructor => 'Conoce a tu Instructor';
+
+  @override
+  String get coursesByInstructor => 'Cursos';
+
+  @override
+  String get studentsLabel => 'Estudiantes';
+
+  @override
+  String get ratingLabel => 'Calificación';
+
+  @override
+  String get priceLabel => 'Precio';
+
+  @override
+  String get durationStat => 'Duración';
+
+  @override
+  String get levelLabel => 'Nivel';
+
+  @override
+  String get languageLabel => 'Idioma';
+
+  @override
+  String get statusLabel => 'Estado';
+
+  @override
+  String get courseCompletedStatus => 'Curso Completado';
+
+  @override
+  String get currentlyEnrolled => 'Actualmente Inscrito';
+
+  @override
+  String get enrollmentConfirmed => 'Inscripción Confirmada';
+
+  @override
+  String get enrollmentStatus => 'Estado de Inscripción';
+
+  @override
+  String experienceYears(String years) {
+    return '$years+ años';
+  }
+
+  @override
+  String expertIn(String language) {
+    return 'Experto en $language';
+  }
+
+  @override
+  String studentCountText(String count) {
+    return '$count estudiantes';
+  }
+
+  @override
+  String get instructorBioDefault =>
+      'Educador experimentado con más de 8 años de experiencia docente. Se especializa en técnicas modernas de aprendizaje de idiomas y métodos de enseñanza interactivos.';
+
+  @override
+  String get instructorExperience => '8+ años';
+
+  @override
+  String instructorEducation(String language) {
+    return 'Experto en idioma $language';
+  }
+
+  @override
+  String get aboutInstructor => 'Acerca de';
+
+  @override
+  String instructorStudents(int count) {
+    return '$count estudiantes';
+  }
+
+  @override
+  String get instructorCourses => 'Cursos';
+
+  @override
+  String get instructorRating => 'Calificación del Instructor';
+
+  @override
+  String courseBy(String instructor) {
+    return 'por $instructor';
+  }
+
+  @override
+  String expertInLanguage(String language) {
+    return 'Experto en $language';
+  }
+
+  @override
+  String get courseFeedback => 'Retroalimentación del Curso';
+
+  @override
+  String get reviewInstructorFeedback =>
+      'Revisa la retroalimentación del instructor y comparte tu experiencia del curso';
+
+  @override
+  String get feedbackFromInstructor => 'Retroalimentación del Instructor';
+
+  @override
+  String get giveYourFeedback => 'Comparte tu Retroalimentación';
+
+  @override
+  String get rateCourse => 'Califica el Curso';
+
+  @override
+  String ratingValue(int rating) {
+    return '$rating/5';
+  }
+
+  @override
+  String get noRating => 'Sin calificación';
+
+  @override
+  String get yourCourseFeedback => 'Tu Retroalimentación del Curso';
+
+  @override
+  String get courseFeedbackHint =>
+      'Comparte tus pensamientos sobre el contenido, estructura, dificultad del curso...';
+
+  @override
+  String get submitCourseFeedback => 'Enviar Retroalimentación del Curso';
+
+  @override
+  String get instructorFeedback => 'Retroalimentación del Instructor';
+
+  @override
+  String get rateInstructor => 'Califica al Instructor';
+
+  @override
+  String get yourInstructorFeedback => 'Tu Retroalimentación del Instructor';
+
+  @override
+  String get instructorFeedbackHint =>
+      'Comparte tus pensamientos sobre el estilo de enseñanza, claridad, apoyo...';
+
+  @override
+  String get submitInstructorFeedback =>
+      'Enviar Retroalimentación del Instructor';
+
+  @override
+  String get feedbackSummary => 'Resumen de Retroalimentación';
+
+  @override
+  String get averageRating => 'Calificación Promedio';
+
+  @override
+  String get totalFeedback => 'Retroalimentación Total';
+
+  @override
+  String get positive => 'positiva';
+
+  @override
+  String get constructive => 'constructiva';
+
+  @override
+  String get improvement => 'mejora';
+
+  @override
+  String get pleaseWriteCourseFeedback =>
+      'Por favor escribe tu retroalimentación del curso';
+
+  @override
+  String get pleaseRateCourse =>
+      'Por favor proporciona una calificación para el curso';
+
+  @override
+  String get courseFeedbackSubmitted =>
+      '✅ ¡Retroalimentación del curso enviada exitosamente!';
+
+  @override
+  String get pleaseWriteInstructorFeedback =>
+      'Por favor escribe tu retroalimentación del instructor';
+
+  @override
+  String get pleaseRateInstructor =>
+      'Por favor proporciona una calificación para el instructor';
+
+  @override
+  String get instructorFeedbackSubmitted =>
+      '✅ ¡Retroalimentación del instructor enviada exitosamente!';
+
+  @override
+  String enrolledMembers(int count) {
+    return '$count miembros inscritos';
+  }
+
+  @override
+  String get instructorRole => 'INSTRUCTOR';
+
+  @override
+  String enrolledMembersTitle(int count) {
+    return 'Miembros Inscritos ($count)';
+  }
+
+  @override
+  String videoDuration(String duration) {
+    return '• Duración: $duration';
+  }
+
+  @override
+  String videoStatus(String status) {
+    return '• Estado: $status';
+  }
+
+  @override
+  String videoResolution(String resolution) {
+    return '• Resolución: $resolution';
+  }
+
+  @override
+  String get videoLoaded => 'Cargado';
+
+  @override
+  String get videoLoading => 'Cargando...';
+
+  @override
+  String get connectionTimeout =>
+      'Tiempo de espera agotado. Verifica tu conexión a internet e inténtalo de nuevo.';
+
+  @override
+  String get videoNotFound =>
+      'Video no encontrado. La URL del video puede ser inválida.';
+
+  @override
+  String get networkError => 'Error de red. Verifica tu conexión a internet.';
+
+  @override
+  String get videoLoadingTimeout =>
+      'Tiempo de carga del video agotado - Verifica tu conexión a internet';
+
+  @override
+  String videoErrorPrefix(String error) {
+    return '❌ $error';
+  }
+
+  @override
+  String videoErrorMessage(String error) {
+    return 'Error de Video: $error';
+  }
+
+  @override
+  String get fullscreenMode => 'Modo pantalla completa';
+
+  @override
+  String get playbackSettings => '🎬 Configuraciones de Reproducción:';
+
+  @override
+  String playbackSpeed(String speed) {
+    return '• Velocidad: ${speed}x';
+  }
+
+  @override
+  String playbackQuality(String quality) {
+    return '• Calidad: $quality';
+  }
+
+  @override
+  String playbackVolume(int volume) {
+    return '• Volumen: $volume%';
+  }
+
+  @override
+  String get playbackQualityAuto => 'Auto';
+
+  @override
+  String get retryButton => 'Reintentar';
+
+  @override
+  String get qualityAuto => 'Auto';
+
+  @override
+  String chatLearningLanguage(String language) {
+    return 'Aprendiendo $language';
+  }
+
+  @override
+  String chatLanguageEnthusiast(String country, String flag) {
+    return 'Entusiasta de idiomas de $country $flag. ¡Me encanta practicar idiomas y hacer nuevos amigos de todo el mundo!';
+  }
+
+  @override
+  String get chatCorrectedText => 'Texto corregido';
+
+  @override
+  String get chatTranslationHere => 'Traducción aquí';
+
+  @override
+  String get chatRead => 'Leído';
+
+  @override
+  String get chatMessageTranslated => '¡Mensaje traducido!';
+
+  @override
+  String get chatCorrectMessage => 'Corregir Mensaje';
+
+  @override
+  String get chatOriginal => 'Original:';
+
+  @override
+  String get chatCorrection => 'Corrección:';
+
+  @override
+  String get chatCorrectionSaved => '¡Corrección guardada!';
+
+  @override
+  String get chatDialogCorrectMessage => 'Corregir Mensaje';
+
+  @override
+  String get chatDialogOriginal => 'Original:';
+
+  @override
+  String get chatDialogCorrection => 'Corrección:';
+
+  @override
+  String get chatDialogCancel => 'Cancelar';
+
+  @override
+  String get chatDialogSave => 'Guardar';
+
+  @override
+  String get chatDialogCorrectionSaved => '¡Corrección guardada!';
+
+  @override
+  String get chatTranslateIconTapped => '¡Icono de traducir tocado!';
+
+  @override
+  String get chatCorrectIconTapped => '¡Icono de corregir tocado!';
+
+  @override
+  String chatDaysAgo(int count) {
+    return 'hace $count días';
+  }
+
+  @override
+  String chatHoursAgo(int count) {
+    return 'hace $count horas';
+  }
+
+  @override
+  String chatMinutesAgo(int count) {
+    return 'hace $count minutos';
+  }
+
+  @override
+  String chatTimestampDaysAgo(int count) {
+    return 'hace $count días';
+  }
+
+  @override
+  String chatTimestampHoursAgo(int count) {
+    return 'hace $count horas';
+  }
+
+  @override
+  String chatTimestampMinutesAgo(int count) {
+    return 'hace $count minutos';
+  }
+
+  @override
+  String get paymentCompletePurchase => 'Completar Compra';
+
+  @override
+  String get paymentCourseFallback => 'Curso';
+
+  @override
+  String get paymentInstructorFallback => 'Instructor';
+
+  @override
+  String paymentCourseBy(String instructor) {
+    return 'por $instructor';
+  }
+
+  @override
+  String get paymentMethod => 'Método de Pago';
+
+  @override
+  String get paymentCreditDebitCard => 'Tarjeta de Crédito/Débito';
+
+  @override
+  String get paymentPayPal => 'PayPal';
+
+  @override
+  String get paymentCardInformation => 'Información de la Tarjeta';
+
+  @override
+  String get paymentCardNumber => 'Número de Tarjeta';
+
+  @override
+  String get paymentCardNumberHint => '1234 5678 9012 3456';
+
+  @override
+  String get paymentExpiryDate => 'Fecha de Vencimiento';
+
+  @override
+  String get paymentExpiryHint => 'MM/AA';
+
+  @override
+  String get paymentCVV => 'CVV';
+
+  @override
+  String get paymentCVVHint => '123';
+
+  @override
+  String get paymentBillingInformation => 'Información de Facturación';
+
+  @override
+  String get paymentCardholderName => 'Nombre del Titular';
+
+  @override
+  String get paymentCardholderNameHint => 'Juan Pérez';
+
+  @override
+  String get paymentEmailAddress => 'Dirección de Correo';
+
+  @override
+  String get paymentEmailHint => 'juan@ejemplo.com';
+
+  @override
+  String get paymentOrderSummary => 'Resumen del Pedido';
+
+  @override
+  String get paymentCoursePrice => 'Precio del Curso';
+
+  @override
+  String get paymentTax => 'Impuesto (10%)';
+
+  @override
+  String get paymentTotal => 'Total';
+
+  @override
+  String get paymentProcessing => 'Procesando...';
+
+  @override
+  String paymentPay(String amount) {
+    return 'Pagar $amount';
+  }
+
+  @override
+  String get paymentProcessingPayPal => 'Procesando pago de PayPal...';
+
+  @override
+  String get paymentSuccessTitle => '¡Pago Exitoso!';
+
+  @override
+  String paymentSuccessMessage(String courseTitle) {
+    return '¡Bienvenido a $courseTitle!\nAhora puedes acceder a todos los materiales del curso.';
+  }
+
+  @override
+  String get paymentStartLearning => 'Comenzar a Aprender';
+
+  @override
+  String get paymentErrorCardNumber => 'Por favor ingresa el número de tarjeta';
+
+  @override
+  String get paymentErrorInvalidCard =>
+      'Por favor ingresa un número de tarjeta válido';
+
+  @override
+  String get paymentErrorRequired => 'Requerido';
+
+  @override
+  String get paymentErrorInvalidDate => 'Fecha inválida';
+
+  @override
+  String get paymentErrorInvalidCVV => 'CVV inválido';
+
+  @override
+  String get paymentErrorCardholderName =>
+      'Por favor ingresa el nombre del titular';
+
+  @override
+  String get paymentErrorEmail => 'Por favor ingresa la dirección de correo';
+
+  @override
+  String get paymentErrorInvalidEmail => 'Por favor ingresa un correo válido';
+
+  @override
+  String get courseDetailsFallbackTitle => 'Título del Curso';
+
+  @override
+  String get courseDetailsFallbackDescription =>
+      'Este es un curso integral diseñado para ayudarte a dominar el idioma.';
+
+  @override
+  String get courseDetailsFallbackLanguage => 'Español';
+
+  @override
+  String get courseDetailsFallbackLevel => 'Principiante';
+
+  @override
+  String get courseDetailsFallbackInstructor => 'Juan Pérez';
+
+  @override
+  String get courseDetailsFallbackDuration => '4 semanas';
+
+  @override
+  String get courseDetailsFallbackStatus => 'activo';
+
+  @override
+  String get courseDetailsFallbackCategory => 'Idiomas';
+
+  @override
+  String courseDetailsInstructorBy(String instructor) {
+    return 'por $instructor';
+  }
+
+  @override
+  String get courseDetailsLanguageLabel => 'Idioma';
+
+  @override
+  String get courseDetailsSessionsLabel => 'Sesiones';
+
+  @override
+  String get courseDetailsStudentsLabel => 'Estudiantes';
+
+  @override
+  String get courseDetailsOverviewTitle => 'Resumen del Curso';
+
+  @override
+  String get courseDetailsTimelineTitle => 'Cronograma del Curso';
+
+  @override
+  String get courseDetailsStartDateLabel => 'Fecha de Inicio';
+
+  @override
+  String get courseDetailsEndDateLabel => 'Fecha de Fin';
+
+  @override
+  String courseDetailsDurationLevel(String duration, String level) {
+    return 'Duración: $duration • Nivel: $level';
+  }
+
+  @override
+  String get courseDetailsInstructorTitle => 'Instructor Experto en Idiomas';
+
+  @override
+  String get courseDetailsInstructorDescription =>
+      'Educador experimentado con más de 8 años de experiencia docente. Se especializa en técnicas modernas de aprendizaje de idiomas.';
+
+  @override
+  String get courseDetailsInstructorYearsExp => 'Años Exp.';
+
+  @override
+  String get courseDetailsInstructorRating => 'Calificación';
+
+  @override
+  String get courseDetailsInstructorStudents => 'Estudiantes';
+
+  @override
+  String get courseDetailsFeedbackTitle => 'Comentarios de Estudiantes';
+
+  @override
+  String get courseDetailsHighlyRated => 'Curso Altamente Calificado';
+
+  @override
+  String get courseDetailsReviewsCount =>
+      'Basado en 124+ reseñas de estudiantes';
+
+  @override
+  String get courseDetailsSatisfactionRate => '95% Tasa de Satisfacción';
+
+  @override
+  String get courseDetailsOneTimePayment => 'Pago Único';
+
+  @override
+  String get courseDetailsEnrollNow => 'Inscribirse Ahora';
+
+  @override
+  String get instructorProfile => 'Perfil';
+
+  @override
+  String instructorYearsExp(int years) {
+    return '$years años de experiencia';
+  }
+
+  @override
+  String get instructorStatsCourses => 'Cursos';
+
+  @override
+  String get instructorStatsStudents => 'Estudiantes';
+
+  @override
+  String get instructorStatsRating => 'Calificación';
+
+  @override
+  String get instructorPersonalInfo => 'Información Personal';
+
+  @override
+  String get instructorProfessionalInfo => 'Información Profesional';
+
+  @override
+  String get instructorLanguages => 'Idiomas';
+
+  @override
+  String get instructorAboutMe => 'Acerca de Mí';
+
+  @override
+  String get instructorEmail => 'Correo Electrónico';
+
+  @override
+  String get instructorDateOfBirth => 'Fecha de Nacimiento';
+
+  @override
+  String get instructorGender => 'Género';
+
+  @override
+  String get instructorCountry => 'País';
+
+  @override
+  String get instructorYearsOfExperience => 'Años de Experiencia';
+
+  @override
+  String instructorYearsFormat(int years) {
+    return '$years años';
+  }
+
+  @override
+  String get instructorNativeLanguage => 'Idioma Nativo';
+
+  @override
+  String get instructorTeachingLanguage => 'Idioma de Enseñanza';
+
+  @override
+  String get instructorEditProfileImage => 'Editar Imagen de Perfil';
+
+  @override
+  String get instructorTakePhoto => 'Tomar Foto';
+
+  @override
+  String get instructorSelectFromGallery => 'Seleccionar de la Galería';
+
+  @override
+  String get instructorEnterImageUrl => 'Ingresar URL de Imagen';
+
+  @override
+  String get instructorCameraFeatureMessage =>
+      'La función de cámara será implementada';
+
+  @override
+  String get instructorGalleryFeatureMessage =>
+      'La función de galería será implementada';
+
+  @override
+  String instructorEditTitle(String field) {
+    return 'Editar $field';
+  }
+
+  @override
+  String instructorEnterField(String field) {
+    return 'Ingresar $field';
+  }
+
+  @override
+  String get instructorCancel => 'Cancelar';
+
+  @override
+  String get instructorSave => 'Guardar';
+
+  @override
+  String instructorFieldUpdated(String field) {
+    return '$field actualizado exitosamente';
+  }
+
+  @override
+  String get instructorEditBio => 'Editar Biografía';
+
+  @override
+  String get instructorBioPlaceholder => 'Cuéntanos sobre ti...';
+
+  @override
+  String get instructorBioUpdated => 'Biografía actualizada exitosamente';
+
+  @override
+  String get instructorDateOfBirthUpdated =>
+      'Fecha de nacimiento actualizada exitosamente';
+
+  @override
+  String get instructorSelectGender => 'Seleccionar Género';
+
+  @override
+  String get instructorGenderUpdated => 'Género actualizado exitosamente';
+
+  @override
+  String get instructorSelectCountry => 'Seleccionar País';
+
+  @override
+  String get instructorCountryUpdated => 'País actualizado exitosamente';
+
+  @override
+  String get instructorSelectNativeLanguage => 'Seleccionar Idioma Nativo';
+
+  @override
+  String get instructorSelectTeachingLanguage =>
+      'Seleccionar Idioma de Enseñanza';
+
+  @override
+  String get instructorNativeLanguageUpdated =>
+      'Idioma nativo actualizado exitosamente';
+
+  @override
+  String get instructorTeachingLanguageUpdated =>
+      'Idioma de enseñanza actualizado exitosamente';
+
+  @override
+  String get instructorExperienceUpdated =>
+      'Experiencia actualizada exitosamente';
+
+  @override
+  String get instructorLogout => 'Cerrar Sesión';
+
+  @override
+  String get instructorLogoutConfirm =>
+      '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get revenueDashboard => 'Panel de Ingresos';
+
+  @override
+  String get revenueWeekly => 'Semanal';
+
+  @override
+  String get revenueMonthly => 'Mensual';
+
+  @override
+  String get revenueThisYear => 'Este Año';
+
+  @override
+  String get revenueTotalCourses => 'Total de Cursos';
+
+  @override
+  String get revenueWeeklyTrend => 'Tendencia de Ingresos Semanales';
+
+  @override
+  String get revenueTotal => 'Total';
+
+  @override
+  String get revenuePeak => 'Pico';
+
+  @override
+  String get revenueCourseIncome => 'Ingresos por Cursos';
+
+  @override
+  String get revenueShowLess => 'Mostrar Menos';
+
+  @override
+  String get revenueViewAll => 'Ver Todo';
+
+  @override
+  String get revenuePrice => 'Precio';
+
+  @override
+  String get revenueEnrolled => 'inscritos';
+
+  @override
+  String get revenueTransactionHistory => 'Historial de Transacciones';
+
+  @override
+  String get revenueWithdrawal => 'Retiro';
+
+  @override
+  String get revenuePaymentOverview => 'Resumen de Pagos';
+
+  @override
+  String get revenueAvailableBalance => 'Saldo Disponible';
+
+  @override
+  String get revenueWithdrawButton => 'Retirar';
+
+  @override
+  String get revenueTotalEarned => 'Total Ganado';
+
+  @override
+  String get revenueWithdrawn => 'Retirado';
+
+  @override
+  String get withdrawMoney => 'Retirar Dinero';
+
+  @override
+  String get availableBalance => 'Saldo Disponible';
+
+  @override
+  String get withdrawalAmount => 'Cantidad a Retirar';
+
+  @override
+  String get enterAmountToWithdraw => 'Ingresa la cantidad a retirar';
+
+  @override
+  String get pleaseEnterWithdrawalAmount =>
+      'Por favor ingresa la cantidad a retirar';
+
+  @override
+  String get pleaseEnterValidAmount => 'Por favor ingresa una cantidad válida';
+
+  @override
+  String get amountMustBeGreaterThanZero =>
+      'La cantidad debe ser mayor que cero';
+
+  @override
+  String get amountExceedsAvailableBalance =>
+      'La cantidad excede el saldo disponible';
+
+  @override
+  String get minimumWithdrawalAmountIs =>
+      'La cantidad mínima de retiro es \$10';
+
+  @override
+  String get quickAmount50 => '\$50';
+
+  @override
+  String get quickAmount100 => '\$100';
+
+  @override
+  String get quickAmountMax => 'Máx';
+
+  @override
+  String get bankInformation => 'Información Bancaria';
+
+  @override
+  String get accountHolderName => 'Nombre del Titular de la Cuenta';
+
+  @override
+  String get enterFullNameAsOnBankAccount =>
+      'Ingresa el nombre completo como aparece en la cuenta bancaria';
+
+  @override
+  String get pleaseEnterAccountHolderName =>
+      'Por favor ingresa el nombre del titular de la cuenta';
+
+  @override
+  String get bankName => 'Nombre del Banco';
+
+  @override
+  String get enterYourBankName => 'Ingresa el nombre de tu banco';
+
+  @override
+  String get pleaseEnterBankName => 'Por favor ingresa el nombre del banco';
+
+  @override
+  String get accountNumber => 'Número de Cuenta';
+
+  @override
+  String get enterYourAccountNumber => 'Ingresa tu número de cuenta';
+
+  @override
+  String get pleaseEnterAccountNumber =>
+      'Por favor ingresa el número de cuenta';
+
+  @override
+  String get accountNumberMustBeAtLeast8Digits =>
+      'El número de cuenta debe tener al menos 8 dígitos';
+
+  @override
+  String get routingNumber => 'Número de Ruta';
+
+  @override
+  String get enter9DigitRoutingNumber =>
+      'Ingresa el número de ruta de 9 dígitos';
+
+  @override
+  String get pleaseEnterRoutingNumber => 'Por favor ingresa el número de ruta';
+
+  @override
+  String get routingNumberMustBe9Digits =>
+      'El número de ruta debe tener 9 dígitos';
+
+  @override
+  String get submitWithdrawalRequest => 'Enviar Solicitud de Retiro';
+
+  @override
+  String get importantInformation => 'Información Importante';
+
+  @override
+  String get processingTime => 'Tiempo de procesamiento: 3-5 días hábiles';
+
+  @override
+  String get minimumWithdrawal => 'Retiro mínimo: \$10';
+
+  @override
+  String get noProcessingFees => 'Sin tarifas de procesamiento';
+
+  @override
+  String get withdrawalsProcessedMondayFriday =>
+      'Los retiros se procesan de lunes a viernes';
+
+  @override
+  String get bankInformationEncrypted =>
+      'La información bancaria está encriptada y es segura';
+
+  @override
+  String get confirmWithdrawal => 'Confirmar Retiro';
+
+  @override
+  String get withdrawToAccountEndingIn => 'Retirar';
+
+  @override
+  String get withdrawConfirmationQuestion => 'a tu cuenta terminada en';
+
+  @override
+  String get withdrawalRequestSubmittedSuccessfully =>
+      '¡Solicitud de retiro enviada exitosamente!';
+
+  @override
+  String get createNewCourse => 'Crear Nuevo Curso';
+
+  @override
+  String get createYourCourse => 'Crear Tu Curso';
+
+  @override
+  String get fillDetailsToCreateCourse =>
+      'Completa los detalles para crear tu curso';
+
+  @override
+  String get enterCourseTitle => 'Ingresa el título del curso';
+
+  @override
+  String get pleaseEnterCourseTitle => 'Por favor ingresa el título del curso';
+
+  @override
+  String get description => 'Descripción';
+
+  @override
+  String get describeCourse => 'Describe tu curso';
+
+  @override
+  String get pleaseEnterCourseDescription =>
+      'Por favor ingresa la descripción del curso';
+
+  @override
+  String get totalSessionsHint => 'ej., 12';
+
+  @override
+  String get enterSessions => 'Ingresa sesiones';
+
+  @override
+  String get priceInDollars => 'Precio (\$)';
+
+  @override
+  String get free => 'Gratis';
+
+  @override
+  String get courseSchedule => 'Horario del Curso';
+
+  @override
+  String get selectDate => 'Seleccionar Fecha *';
+
+  @override
+  String get courseThumbnail => 'Miniatura del Curso';
+
+  @override
+  String get selectCourseThumbnail => 'Seleccionar Miniatura del Curso';
+
+  @override
+  String get jpgPngMax5MB => 'JPG, PNG (Máx 5MB)';
+
+  @override
+  String get imageSelected => 'Imagen Seleccionada';
+
+  @override
+  String get publishCourse => 'Publicar Curso';
+
+  @override
+  String get pleaseSelectStartEndDates =>
+      'Por favor selecciona las fechas de inicio y finalización';
+
+  @override
+  String get pleaseSelectCourseThumbnail =>
+      'Por favor selecciona una miniatura del curso';
+
+  @override
+  String get coursePublishedSuccessfully => '¡Curso publicado exitosamente!';
+
+  @override
+  String get imagePickerFeatureWillBeImplemented =>
+      'La función de selector de imágenes será implementada';
+
+  @override
+  String get analytics => 'Analíticas';
+
+  @override
+  String get searchYourCourses => 'Busca tus cursos...';
+
+  @override
+  String get totalStudents => 'Total de Estudiantes';
+
+  @override
+  String get activeCourses => 'Cursos Activos';
+
+  @override
+  String get totalCourses => 'Total de Cursos';
+
+  @override
+  String get upcomingCourses => 'Cursos Próximos';
+
+  @override
+  String get seeAll => 'Ver todos';
+
+  @override
+  String get completedCourses => 'Cursos Completados';
+
+  @override
+  String get showAllSections => 'Mostrar todas las secciones';
+
+  @override
+  String get tryAdjustingSearch => 'Intenta ajustar tus términos de búsqueda';
+
+  @override
+  String get instructorPortal => 'Portal del Instructor';
+
+  @override
+  String get instructorSettings => 'Configuraciones del Instructor';
+
+  @override
+  String get completion => 'Finalización';
+
+  @override
+  String get notificationPreferences => 'Preferencias de Notificación';
+
+  @override
+  String get officeHours => 'Horario de Oficina';
+
+  @override
+  String get languageAndRegion => 'Idioma y Región';
+
+  @override
+  String get notificationSettingsComingSoon =>
+      'Configuración de notificaciones próximamente';
+
+  @override
+  String get officeHoursSettingsComingSoon =>
+      'Configuración de horario de oficina próximamente';
+
+  @override
+  String get languageSettingsComingSoon =>
+      'Configuración de idioma próximamente';
+
+  @override
+  String get studentsCount => 'estudiantes';
+
+  @override
+  String get coursesStudents => 'Estudiantes';
+
+  @override
+  String get category => 'Categoría';
+
+  @override
+  String get starts => 'Inicia';
+
+  @override
+  String get revenueAnalytics => 'Análisis de Ingresos';
+
+  @override
+  String get coursePrice => 'Precio del Curso';
+
+  @override
+  String get totalRevenue => 'Ingresos Totales';
+
+  @override
+  String get courseManagement => 'Gestión del Curso';
+
+  @override
+  String get editCourseDetails => 'Editar Detalles del Curso';
+
+  @override
+  String get editCourseDetailsTitle => 'Editar Detalles del Curso';
+
+  @override
+  String get title => 'Título';
+
+  @override
+  String get priceWithSymbol => 'Precio (\$)';
+
+  @override
+  String get thumbnailUrl => 'URL de Miniatura';
+
+  @override
+  String get saveChanges => 'Guardar Cambios';
+
+  @override
+  String get courseDetailsUpdatedSuccessfully =>
+      'Detalles del curso actualizados exitosamente';
+
+  @override
+  String get feedbackManagement => 'Gestión de Comentarios';
+
+  @override
+  String get viewStudentReviewsDescription =>
+      'Ver reseñas de estudiantes y proporcionar retroalimentación personalizada';
+
+  @override
+  String get courseRating => 'Calificación del Curso';
+
+  @override
+  String get totalReviews => 'Total de Reseñas';
+
+  @override
+  String get courseReviewsFromStudents =>
+      'Reseñas del Curso de los Estudiantes';
+
+  @override
+  String get instructorReviewsFromStudents =>
+      'Reseñas del Instructor de los Estudiantes';
+
+  @override
+  String get giveStudentFeedback => 'Dar Retroalimentación al Estudiante';
+
+  @override
+  String get selectStudent => 'Seleccionar Estudiante';
+
+  @override
+  String get chooseAStudent => 'Elige un estudiante...';
+
+  @override
+  String get rateStudentPerformance => 'Calificar Rendimiento del Estudiante';
+
+  @override
+  String get feedbackMessage => 'Mensaje de Retroalimentación';
+
+  @override
+  String get feedbackHintText =>
+      'Comparte tu retroalimentación sobre el rendimiento del estudiante, participación, áreas de mejora...';
+
+  @override
+  String get sendFeedbackToStudent => 'Enviar Retroalimentación al Estudiante';
+
+  @override
+  String get pleaseWriteYourFeedback =>
+      'Por favor escribe tu retroalimentación';
+
+  @override
+  String get pleaseProvideARating => 'Por favor proporciona una calificación';
+
+  @override
+  String feedbackSentSuccessfully(String studentName) {
+    return '✅ ¡Retroalimentación enviada a $studentName exitosamente!';
+  }
+
+  @override
+  String get instructorPanel => 'Panel del Instructor';
+
+  @override
+  String onlineStudentsCount(int onlineCount, int totalCount) {
+    return '$onlineCount en línea • $totalCount estudiantes totales';
+  }
+
+  @override
+  String get messageYourStudents => 'Envía un mensaje a tus estudiantes...';
+
+  @override
+  String get scheduleNewSession => 'Programar Nueva Sesión';
+
+  @override
+  String get sessionOverview => 'Resumen de Sesiones';
+
+  @override
+  String get noSessionsScheduled => 'No hay sesiones programadas';
+
+  @override
+  String get createYourFirstSession => 'Crea tu primera sesión';
+
+  @override
+  String get scheduleSession => 'Programar Sesión';
+
+  @override
+  String get copyLink => 'Copiar Enlace';
+
+  @override
+  String get copyPassword => 'Copiar Contraseña';
+
+  @override
+  String get deleteSession => 'Eliminar Sesión';
+
+  @override
+  String get deleteSessionConfirmation =>
+      '¿Estás seguro de que quieres eliminar esta sesión? Esta acción no se puede deshacer.';
+
+  @override
+  String get sessionDeletedSuccessfully => 'Sesión eliminada exitosamente';
+
+  @override
+  String get sessionTitle => 'Título de la Sesión';
+
+  @override
+  String get sessionTitleRequired => 'Título de la Sesión *';
+
+  @override
+  String get platform => 'Plataforma';
+
+  @override
+  String get platformRequired => 'Plataforma *';
+
+  @override
+  String get selectTime => 'Seleccionar Hora *';
+
+  @override
+  String durationHours(String duration) {
+    return 'Duración: $duration horas';
+  }
+
+  @override
+  String get uploadNewVideo => 'Subir Nuevo Video';
+
+  @override
+  String completePercentage(int percentage) {
+    return '$percentage% completado';
+  }
+
+  @override
+  String videosProcessed(int loaded, int total) {
+    return '$loaded de $total videos procesados';
+  }
+
+  @override
+  String get noRecordedVideosYet => 'Aún no hay videos grabados';
+
+  @override
+  String get uploadYourFirstRecordedClass => 'Sube tu primera clase grabada';
+
+  @override
+  String get editVideoDetails => 'Editar Detalles del Video';
+
+  @override
+  String get videoUpdatedSuccessfully => '✅ ¡Video actualizado exitosamente!';
+
+  @override
+  String get deleteVideo => 'Eliminar Video';
+
+  @override
+  String get areYouSureDeleteVideo =>
+      '¿Estás seguro de que quieres eliminar este video?';
+
+  @override
+  String get thisActionCannotBeUndone => 'Esta acción no se puede deshacer.';
+
+  @override
+  String videoDeleted(String title) {
+    return '🗑️ \"$title\" eliminado';
+  }
+
+  @override
+  String get uploadNewVideoDialog => 'Subir Nuevo Video';
+
+  @override
+  String get tapToSelectVideoFile =>
+      'Toca para seleccionar archivo de video del almacenamiento';
+
+  @override
+  String fileSelectedPrefix(String filename) {
+    return 'Archivo seleccionado: $filename';
+  }
+
+  @override
+  String fileSelected(String filename) {
+    return '📁 Archivo seleccionado: $filename';
+  }
+
+  @override
+  String get videoTitleRequired => 'Título del Video *';
+
+  @override
+  String get uploadButton => 'Subir';
+
+  @override
+  String uploadingVideo(String title) {
+    return '📤 Subiendo \"$title\"...';
+  }
+
+  @override
+  String videoPublishedSuccessfully(String title) {
+    return '✅ \"$title\" publicado exitosamente!';
+  }
+
+  @override
+  String metadataError(String error) {
+    return 'Error de metadatos: $error';
+  }
+
+  @override
+  String get sessionLinkRequired => 'Enlace de la Sesión *';
+
+  @override
+  String get passwordOptional => 'Contraseña (opcional)';
+
+  @override
+  String get sessionScheduledSuccessfully => '¡Sesión programada exitosamente!';
+
+  @override
+  String get fillAllRequiredFields =>
+      'Por favor completa todos los campos obligatorios';
+
+  @override
+  String get editSession => 'Editar Sesión';
+
+  @override
+  String get sessionUpdatedSuccessfully => '¡Sesión actualizada exitosamente!';
+
+  @override
+  String startingSession(String platform) {
+    return 'Iniciando sesión de $platform...';
+  }
+
+  @override
+  String get uploadStudyMaterial => 'Subir Material de Estudio';
+
+  @override
+  String get noStudyMaterialsYet => 'Aún no hay materiales de estudio';
+
+  @override
+  String get uploadYourFirstStudyMaterial =>
+      'Sube tu primer material de estudio';
+
+  @override
+  String get noFileAvailableForThisMaterial =>
+      '❌ No hay archivo disponible para este material';
+
+  @override
+  String openingFile(String fileName) {
+    return '📁 Abriendo archivo: $fileName';
+  }
+
+  @override
+  String get filePreview => 'Vista Previa del Archivo';
+
+  @override
+  String fileLabel(String fileName) {
+    return 'Archivo: $fileName';
+  }
+
+  @override
+  String sizeLabel(String fileSize) {
+    return 'Tamaño: $fileSize';
+  }
+
+  @override
+  String typeLabel(String fileType) {
+    return 'Tipo: $fileType';
+  }
+
+  @override
+  String get inRealAppDescription =>
+      'En la aplicación real, esto mostraría el contenido del archivo actual';
+
+  @override
+  String get openFile => 'Abrir Archivo';
+
+  @override
+  String openingFileWithSystemViewer(String fileName) {
+    return '📂 Abriendo $fileName con el visor del sistema';
+  }
+
+  @override
+  String get editMaterialDetails => 'Editar Detalles del Material';
+
+  @override
+  String get materialUpdatedSuccessfully =>
+      '✅ ¡Material actualizado exitosamente!';
+
+  @override
+  String get deleteMaterial => 'Eliminar Material';
+
+  @override
+  String get areYouSureDeleteMaterial =>
+      '¿Estás seguro de que quieres eliminar este material?';
+
+  @override
+  String materialDeleted(String materialTitle) {
+    return '🗑️ \"$materialTitle\" eliminado';
+  }
+
+  @override
+  String selectFileType(String fileType) {
+    return 'Seleccionar Archivo $fileType';
+  }
+
+  @override
+  String get chooseFileFromDevice => 'Elige un archivo de tu dispositivo:';
+
+  @override
+  String get noFileSelected => 'Ningún archivo seleccionado';
+
+  @override
+  String get chooseFile => 'Elegir Archivo';
+
+  @override
+  String get changeFile => 'Cambiar Archivo';
+
+  @override
+  String get titleRequired => 'Título *';
+
+  @override
+  String get fileType => 'Tipo de Archivo';
+
+  @override
+  String materialUploadedSuccessfully(String materialTitle) {
+    return '✅ ¡\"$materialTitle\" subido exitosamente!';
+  }
+
+  @override
+  String studyMaterialFor(String courseTitle) {
+    return 'Material de estudio para $courseTitle';
+  }
 }

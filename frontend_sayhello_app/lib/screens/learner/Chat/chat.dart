@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
+import '../BottomTabs/Connect/others_profile_page.dart';
 
 // Models for chat data
 class ChatUser {
@@ -206,24 +207,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.video_call, color: primaryPurple),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context)!.callStarted),
-                  backgroundColor: primaryPurple,
-                ),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: isDark ? Colors.white : Colors.black,
-            ),
-            onPressed: () => _showChatOptions(context),
-          ),
+          // Removed video call and settings (3-dot menu) icons
         ],
       ),
       body: Column(
@@ -346,19 +330,38 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                           ),
                         ),
                         const Spacer(),
-                        Icon(
-                          Icons.chevron_right,
-                          color: isDark
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade600,
-                          size: 20,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OthersProfilePage(
+                                  userId: widget.user.id,
+                                  name: widget.user.name,
+                                  avatar: widget.user.avatarUrl,
+                                  nativeLanguage: widget.user.nativeLanguage,
+                                  learningLanguage:
+                                      widget.user.learningLanguage,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: isDark
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade600,
+                            size: 20,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     // Learning Language
                     Text(
-                      'Learning ${widget.user.learningLanguage}',
+                      AppLocalizations.of(
+                        context,
+                      )!.chatLearningLanguage(widget.user.learningLanguage),
                       style: TextStyle(
                         fontSize: 14,
                         color: isDark
@@ -378,7 +381,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
           // Second row: Bio
           Text(
-            'Language enthusiast from ${widget.user.country} ${widget.user.flag}. Love to practice languages and make new friends around the world!',
+            AppLocalizations.of(
+              context,
+            )!.chatLanguageEnthusiast(widget.user.country, widget.user.flag),
             style: TextStyle(
               fontSize: 14,
               color: isDark ? Colors.white : Colors.black,
@@ -519,7 +524,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                                     Expanded(
                                       child: Text(
                                         _messageCorrections[message.id] ??
-                                            'Corrected text',
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.chatCorrectedText,
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.green,
@@ -571,7 +578,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                                   Expanded(
                                     child: Text(
                                       _messageTranslations[message.id] ??
-                                          'Translation here',
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.chatTranslationHere,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: primaryPurple,
@@ -683,7 +692,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2),
                     child: Text(
-                      'Read',
+                      AppLocalizations.of(context)!.chatRead,
                       style: TextStyle(
                         fontSize: 10,
                         color: primaryPurple,
@@ -726,17 +735,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       child: SafeArea(
         child: Row(
           children: [
-            // Attachment button
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-              ),
-              onPressed: () {
-                _showAttachmentOptions(context, primaryPurple);
-              },
-            ),
-
             // Text input
             Expanded(
               child: Container(
@@ -744,79 +742,39 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _messageController,
-                        style: TextStyle(
-                          color: isDark ? Colors.white : Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.typeMessage,
-                          hintStyle: TextStyle(
-                            color: isDark
-                                ? Colors.grey.shade400
-                                : Colors.grey.shade600,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
-                        maxLines: null,
-                        onSubmitted: (_) => _sendMessage(),
-                      ),
+                child: TextField(
+                  controller: _messageController,
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.typeMessage,
+                    hintStyle: TextStyle(
+                      color: isDark
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade600,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.emoji_emotions_outlined,
-                        color: isDark
-                            ? Colors.grey.shade400
-                            : Colors.grey.shade600,
-                      ),
-                      onPressed: () {
-                        // Show emoji picker
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Emoji picker coming soon!'),
-                            backgroundColor: primaryPurple,
-                          ),
-                        );
-                      },
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
-                  ],
+                  ),
+                  maxLines: null,
+                  onSubmitted: (_) => _sendMessage(),
                 ),
               ),
             ),
 
             const SizedBox(width: 8),
 
-            // Send/Voice button
+            // Send button
             Container(
               decoration: BoxDecoration(
                 color: primaryPurple,
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: Icon(
-                  _messageController.text.isNotEmpty ? Icons.send : Icons.mic,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  if (_messageController.text.isNotEmpty) {
-                    _sendMessage();
-                  } else {
-                    // Start voice recording
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Voice recording coming soon!'),
-                        backgroundColor: primaryPurple,
-                      ),
-                    );
-                  }
-                },
+                icon: const Icon(Icons.send, color: Colors.white),
+                onPressed: _sendMessage,
               ),
             ),
           ],
@@ -851,7 +809,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Message translated!\n${translation.length > 30 ? translation.substring(0, 30) + '...' : translation}',
+          '${AppLocalizations.of(context)!.chatMessageTranslated}\n${translation.length > 30 ? translation.substring(0, 30) + '...' : translation}',
         ),
         backgroundColor: primaryPurple,
         duration: const Duration(seconds: 3),
@@ -872,16 +830,22 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Correct Message'),
+        title: Text(AppLocalizations.of(context)!.chatDialogCorrectMessage),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Original:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              AppLocalizations.of(context)!.chatDialogOriginal,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 4),
             Text(message.text),
             const SizedBox(height: 16),
-            Text('Correction:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              AppLocalizations.of(context)!.chatDialogCorrection,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             TextField(
               controller: correctionController,
@@ -896,7 +860,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.chatDialogCancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -909,14 +873,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Correction saved!'),
+                    content: Text(
+                      AppLocalizations.of(context)!.chatDialogCorrectionSaved,
+                    ),
                     backgroundColor: primaryPurple,
                   ),
                 );
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: primaryPurple),
-            child: const Text('Save', style: TextStyle(color: Colors.white)),
+            child: Text(
+              AppLocalizations.of(context)!.chatDialogSave,
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -956,11 +925,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     final diff = now.difference(time);
 
     if (diff.inDays > 0) {
-      return '${diff.inDays} days ago';
+      return AppLocalizations.of(context)!.chatTimestampDaysAgo(diff.inDays);
     } else if (diff.inHours > 0) {
-      return '${diff.inHours} hours ago';
+      return AppLocalizations.of(context)!.chatTimestampHoursAgo(diff.inHours);
     } else {
-      return '${diff.inMinutes} minutes ago';
+      return AppLocalizations.of(
+        context,
+      )!.chatTimestampMinutesAgo(diff.inMinutes);
     }
   }
 
@@ -973,201 +944,5 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     } else {
       return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
     }
-  }
-
-  void _showChatOptions(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryPurple = const Color(0xFF7a54ff);
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Chat Options',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : Colors.black,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildChatOptionItem(
-              context,
-              Icons.person,
-              'View Profile',
-              primaryPurple,
-            ),
-            _buildChatOptionItem(
-              context,
-              Icons.volume_off,
-              'Mute Chat',
-              primaryPurple,
-            ),
-            _buildChatOptionItem(
-              context,
-              Icons.block,
-              'Block User',
-              Colors.red,
-            ),
-            _buildChatOptionItem(context, Icons.report, 'Report', Colors.red),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChatOptionItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    Color color,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: isDark ? Colors.white : Colors.black,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      onTap: () {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$title feature coming soon!'),
-            backgroundColor: color,
-          ),
-        );
-      },
-    );
-  }
-
-  void _showAttachmentOptions(BuildContext context, Color primaryPurple) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Send Attachment',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : Colors.black,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildAttachmentOption(
-                  context,
-                  Icons.photo,
-                  'Photo',
-                  primaryPurple,
-                ),
-                _buildAttachmentOption(
-                  context,
-                  Icons.videocam,
-                  'Video',
-                  primaryPurple,
-                ),
-                _buildAttachmentOption(
-                  context,
-                  Icons.insert_drive_file,
-                  'File',
-                  primaryPurple,
-                ),
-                _buildAttachmentOption(
-                  context,
-                  Icons.location_on,
-                  'Location',
-                  primaryPurple,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAttachmentOption(
-    BuildContext context,
-    IconData icon,
-    String label,
-    Color primaryPurple,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$label attachment coming soon!'),
-            backgroundColor: primaryPurple,
-          ),
-        );
-      },
-      child: Column(
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: primaryPurple.withOpacity(0.1),
-              shape: BoxShape.circle,
-              border: Border.all(color: primaryPurple.withOpacity(0.3)),
-            ),
-            child: Icon(icon, color: primaryPurple, size: 28),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isDark ? Colors.white : Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -7,15 +8,27 @@ import 'providers/language_provider.dart';
 import 'l10n/app_localizations.dart';
 
 import 'screens/auth/landing_page.dart';
-import 'package:frontend_sayhello_app/screens/auth/learner_signin.dart';
-import 'package:frontend_sayhello_app/screens/auth/instructor_signin.dart';
-import 'package:frontend_sayhello_app/screens/auth/learner_signup.dart';
-import 'package:frontend_sayhello_app/screens/auth/instructor_signup.dart';
+import 'screens/permission_wrapper.dart';
+import 'package:sayhello_app_frontend/screens/auth/learner_signin.dart';
+import 'package:sayhello_app_frontend/screens/auth/instructor_signin.dart';
+import 'package:sayhello_app_frontend/screens/auth/learner_signup.dart';
+import 'package:sayhello_app_frontend/screens/auth/instructor_signup.dart';
 
 import 'screens/learner/learner_main_tab.dart';
 import 'screens/instructor/instructor_main_tab.dart';
 
-void main() {
+void main() async {
+  // Ensure proper Flutter binding initialization
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set preferred orientations for better video experience
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
   runApp(
     MultiProvider(
       providers: [
@@ -82,7 +95,8 @@ class MyApp extends StatelessWidget {
 
       initialRoute: '/',
       routes: {
-        '/': (context) => const LandingPage(),
+        '/': (context) => const PermissionWrapper(),
+        '/landing': (context) => const LandingPage(),
         '/learner-signin': (context) => const LearnerSignInPage(),
         '/instructor-signin': (context) => const InstructorSignInPage(),
         '/learner-signup': (context) => const LearnerSignupPage(),
