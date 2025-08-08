@@ -884,7 +884,7 @@ class _InstructorProfilePageState extends State<InstructorProfilePage> {
             },
             child: const Text('Logout', style: TextStyle(color: Colors.red)),
           ),
-        ],
+       
       ),
     );
   }
