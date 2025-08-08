@@ -446,7 +446,7 @@ class _InstructorSignupPageState extends State<InstructorSignupPage> {
           .toList(),
       onChanged: (val) => onChanged(val ?? ''),
       validator: (val) =>
-    
+          val == null ? AppLocalizations.of(context)!.required : null,
     );
   }
 }
