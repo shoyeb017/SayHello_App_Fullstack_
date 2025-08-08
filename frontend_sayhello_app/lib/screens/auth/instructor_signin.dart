@@ -217,7 +217,7 @@ class _InstructorSignInPageState extends State<InstructorSignInPage> {
                           side: BorderSide(color: primaryColor),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                          
                           ),
                         ),
                       ),
