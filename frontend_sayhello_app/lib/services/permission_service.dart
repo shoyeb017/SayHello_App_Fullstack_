@@ -52,6 +52,8 @@ class PermissionService {
     return await permissions.request();
   }
 
+
+
   /// Request all required permissions
   static Future<Map<Permission, PermissionStatus>>
   requestAllPermissions() async {
