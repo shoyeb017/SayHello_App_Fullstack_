@@ -1150,7 +1150,7 @@ class _InstructorStudyMaterialsTabState
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF7A54FF),
+                    backgroundColor: const Color.fromARGB(255, 116, 81, 244),
                     foregroundColor: Colors.white,
                   ),
                   child: Text(AppLocalizations.of(context)!.upload),
@@ -1198,7 +1198,7 @@ class _InstructorStudyMaterialsTabState
         content: Text(
           AppLocalizations.of(context)!.materialUploadedSuccessfully(title),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 71, 163, 74),
         duration: Duration(seconds: 2),
       ),
     );
