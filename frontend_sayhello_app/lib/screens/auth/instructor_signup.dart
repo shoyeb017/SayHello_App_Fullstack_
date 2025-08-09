@@ -152,7 +152,6 @@ class _InstructorSignupPageState extends State<InstructorSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(

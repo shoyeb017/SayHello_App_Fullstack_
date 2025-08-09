@@ -214,7 +214,6 @@ class _LearnerSignupPageState extends State<LearnerSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isDark ? Colors.grey[900] : const Color(0xFFF5F5F5);
     final cardColor = isDark ? Colors.grey[850] : Colors.white;

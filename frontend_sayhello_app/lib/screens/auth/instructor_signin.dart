@@ -20,7 +20,6 @@ class _InstructorSignInPageState extends State<InstructorSignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     final Color primaryColor = const Color(0xFF7a54ff);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
