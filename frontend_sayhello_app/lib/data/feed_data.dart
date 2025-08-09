@@ -6,8 +6,8 @@
 ///   supabase_flutter: ^2.0.0
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../lib-duplicate/services/supabase_config.dart';
-import '../../lib-duplicate/models/models.dart';
+import '../services/supabase_config.dart';
+import '../models/models.dart';
 
 class FeedRepository {
   final SupabaseClient _client = SupabaseConfig.client;

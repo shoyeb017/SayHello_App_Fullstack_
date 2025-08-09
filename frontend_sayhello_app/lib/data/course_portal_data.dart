@@ -5,7 +5,7 @@
 /// dependencies:
 ///   supabase_flutter: ^2.0.0
 
-import '../../lib-duplicate/models/models.dart';
+import '../models/models.dart';
 
 class CoursePortalRepository {
   // TODO: Initialize Supabase client
