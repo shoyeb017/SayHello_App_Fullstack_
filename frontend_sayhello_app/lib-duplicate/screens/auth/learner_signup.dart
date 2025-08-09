@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../l10n/app_localizations.dart';
-import '../../models/learner.dart';
+import '../../../lib/models/learner.dart';
 import '../../providers/learner_provider.dart';
 import '../../providers/settings_provider.dart';
 

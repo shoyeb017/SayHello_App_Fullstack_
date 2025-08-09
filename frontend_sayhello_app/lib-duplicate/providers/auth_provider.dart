@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/supabase_config.dart';
-import '../models/learner.dart';
-import '../models/instructor.dart';
+import '../../lib/models/learner.dart';
+import '../../lib/models/instructor.dart';
 
 class AuthProvider extends ChangeNotifier {
   final SupabaseClient _client = SupabaseConfig.client;

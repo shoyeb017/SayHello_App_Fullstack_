@@ -2,7 +2,7 @@
 /// Handles chat rooms, messages, and real-time messaging functionality
 
 import 'package:flutter/material.dart';
-import '../models/models.dart';
+import '../../lib/models/models.dart';
 import '../../lib/data/data.dart';
 
 class ChatProvider extends ChangeNotifier {

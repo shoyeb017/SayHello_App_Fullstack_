@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/instructor_provider.dart';
 import '../../l10n/app_localizations.dart';
-import '../../models/instructor.dart';
+import '../../../lib/models/instructor.dart';
 import '../../providers/settings_provider.dart';
 
 class InstructorSignupPage extends StatefulWidget {
