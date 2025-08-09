@@ -104,7 +104,7 @@ class Learner {
       name: name ?? this.name,
       email: email ?? this.email,
       username: username ?? this.username,
-      password: password ?? this.password,
+      password: password,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       gender: gender ?? this.gender,
       country: country ?? this.country,
