@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
-import '../../../lib-duplicate/providers/theme_provider.dart';
-import '../../../lib-duplicate/widgets/language_selector.dart';
-import '../../../lib-duplicate/l10n/app_localizations.dart';
+import '../../providers/theme_provider.dart';
+import '../../widgets/language_selector.dart';
+import '../../l10n/app_localizations.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);

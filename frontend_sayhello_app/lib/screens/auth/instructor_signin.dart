@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../lib/providers/theme_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../../lib-duplicate/l10n/app_localizations.dart';
-import '../../../lib-duplicate/providers/settings_provider.dart';
+import '../../l10n/app_localizations.dart';
+import '../../providers/settings_provider.dart';
 
 class InstructorSignInPage extends StatefulWidget {
   const InstructorSignInPage({super.key});

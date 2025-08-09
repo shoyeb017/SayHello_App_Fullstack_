@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../../lib-duplicate/providers/theme_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../providers/instructor_provider.dart';
-import '../../../lib-duplicate/l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/instructor.dart';
-import '../../../lib-duplicate/providers/settings_provider.dart';
+import '../../providers/settings_provider.dart';
 
 class InstructorSignupPage extends StatefulWidget {
   const InstructorSignupPage({super.key});
