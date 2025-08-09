@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
-import '../../providers/auth_provider.dart';
+import '../../../lib/providers/auth_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/settings_provider.dart';
 

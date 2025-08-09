@@ -2,8 +2,8 @@
 /// Handles learner profile, follower relationships, and UI state
 
 import 'package:flutter/material.dart';
-import '../../lib/models/models.dart';
-import '../../lib/data/data.dart';
+import '../models/models.dart';
+import '../data/data.dart';
 
 class LearnerProvider extends ChangeNotifier {
   final LearnerRepository _repository = LearnerRepository();

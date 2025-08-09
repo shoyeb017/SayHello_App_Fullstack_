@@ -2,8 +2,8 @@
 /// Handles instructor profiles and teaching operations
 
 import 'package:flutter/material.dart';
-import '../../lib/models/models.dart';
-import '../../lib/data/data.dart';
+import '../models/models.dart';
+import '../data/data.dart';
 
 class InstructorProvider extends ChangeNotifier {
   final InstructorRepository _repository = InstructorRepository();

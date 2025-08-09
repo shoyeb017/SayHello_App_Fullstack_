@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'services/supabase_config.dart';
 import 'providers/theme_provider.dart';
 import 'providers/language_provider.dart';
-import 'providers/learner_provider.dart';
+import '../lib/providers/learner_provider.dart';
 import 'l10n/app_localizations.dart';
-import 'providers/instructor_provider.dart';
-import 'providers/auth_provider.dart';
+import '../lib/providers/instructor_provider.dart';
+import '../lib/providers/auth_provider.dart';
 
 import 'screens/auth/landing_page.dart';
 import 'screens/permissions/permission_wrapper.dart';

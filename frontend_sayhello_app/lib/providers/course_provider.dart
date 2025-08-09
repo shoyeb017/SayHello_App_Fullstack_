@@ -2,8 +2,8 @@
 /// Handles courses, enrollments, and course portal functionality
 
 import 'package:flutter/material.dart';
-import '../../lib/models/models.dart';
-import '../../lib/data/data.dart';
+import '../models/models.dart';
+import '../data/data.dart';
 
 class CourseProvider extends ChangeNotifier {
   final CourseRepository _repository = CourseRepository();
