@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../lib-duplicate/services/supabase_config.dart';
+import '../services/supabase_config.dart';
 import '../models/learner.dart';
 import '../models/instructor.dart';
 

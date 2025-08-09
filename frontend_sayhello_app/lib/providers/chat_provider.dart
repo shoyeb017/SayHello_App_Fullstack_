@@ -76,10 +76,7 @@ class ChatProvider extends ChangeNotifier {
       );
 
       // If no chat exists, create one
-      if (existingChat == null) {
-        existingChat = await _repository.createChat(user1Id, user2Id);
-      }
-
+      // existingChat is never null, so we can assign directly
       _currentChat = existingChat;
 
       // Load messages for this chat
