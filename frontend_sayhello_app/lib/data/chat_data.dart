@@ -2,8 +2,8 @@
 /// Provides CRUD operations for chats and messages with real-time support
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/models.dart';
-import '../services/supabase_config.dart';
+import '../../lib-duplicate/models/models.dart';
+import '../../lib-duplicate/services/supabase_config.dart';
 
 class ChatRepository {
   final SupabaseClient _client = SupabaseConfig.client;

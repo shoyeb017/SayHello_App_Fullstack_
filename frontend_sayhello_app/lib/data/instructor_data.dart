@@ -2,8 +2,8 @@
 /// Provides CRUD operations and instructor management functionality
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/models.dart';
-import '../services/supabase_config.dart';
+import '../../lib-duplicate/models/models.dart';
+import '../../lib-duplicate/services/supabase_config.dart';
 
 class InstructorRepository {
   final SupabaseClient _client = SupabaseConfig.client;

@@ -2,7 +2,7 @@
 /// Provides CRUD operations and real-time subscriptions for learners and followers
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/models.dart';
+import '../../lib-duplicate/models/models.dart';
 
 class LearnerRepository {
   final SupabaseClient _client = Supabase.instance.client;

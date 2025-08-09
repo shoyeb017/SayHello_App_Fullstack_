@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import '../models/models.dart';
-import '../data/data.dart';
+import '../../lib/data/data.dart';
 
 class CourseProvider extends ChangeNotifier {
   final CourseRepository _repository = CourseRepository();
