@@ -80,7 +80,7 @@ class ChatProvider extends ChangeNotifier {
       _currentChat = existingChat;
 
       // Load messages for this chat
-      await _loadChatMessages(existingChat.id);
+      await _loadChatMessages(existingChat!.id);
 
       notifyListeners();
     } catch (e) {
