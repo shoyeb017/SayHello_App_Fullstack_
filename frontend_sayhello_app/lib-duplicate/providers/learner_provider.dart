@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../data/data.dart';
-import '../services/storage_service.dart';
+import '../../lib/services/storage_service.dart';
 
 class LearnerProvider extends ChangeNotifier {
   final LearnerRepository _repository = LearnerRepository();

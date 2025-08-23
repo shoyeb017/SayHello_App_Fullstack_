@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../data/data.dart';
-import '../services/storage_service.dart';
+import '../../lib/services/storage_service.dart';
 
 class CourseProvider extends ChangeNotifier {
   final CourseRepository _repository = CourseRepository();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../data/data.dart';
 import 'dart:io';
-import '../services/storage_service.dart';
+import '../../lib/services/storage_service.dart';
 import '../services/supabase_config.dart';
 
 /// Instructor Provider - State management for instructor operations
