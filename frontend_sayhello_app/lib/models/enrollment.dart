@@ -1,5 +1,5 @@
 /// Model class for Course Enrollment data from Supabase
-/// Handles the relationship between learners and courses they've enrolled in
+
 
 import 'course.dart';
 

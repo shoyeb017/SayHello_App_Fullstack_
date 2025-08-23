@@ -21,7 +21,7 @@ class FeedbackProvider extends ChangeNotifier {
   bool _isUpdating = false;
   bool _isDeleting = false;
 
-  // Error state
+
   String? _error;
 
   // Getters
