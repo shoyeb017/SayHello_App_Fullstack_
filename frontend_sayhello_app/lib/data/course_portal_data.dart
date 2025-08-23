@@ -387,21 +387,7 @@ class CoursePortalRepository {
     String courseId, {
     int limit = 50,
   }) async {
-    // TODO: Implement with Supabase
-    /*
-    try {
-      final response = await _supabase
-          .from('feedback')
-          .select()
-          .eq('course_id', courseId)
-          .order('created_at', ascending: false)
-          .limit(limit);
-      
-      return response;
-    } catch (e) {
-      throw Exception('Failed to get course feedback: $e');
-    }
-    */
+   
     throw UnimplementedError('Add Supabase dependency first');
   }
 
@@ -410,21 +396,6 @@ class CoursePortalRepository {
     String feedbackType, {
     int limit = 50,
   }) async {
-    // TODO: Implement with Supabase
-    /*
-    try {
-      final response = await _supabase
-          .from('feedback')
-          .select()
-          .eq('feedback_type', feedbackType)
-          .order('created_at', ascending: false)
-          .limit(limit);
-      
-      return response;
-    } catch (e) {
-      throw Exception('Failed to get feedback by type: $e');
-    }
-    */
     throw UnimplementedError('Add Supabase dependency first');
   }
 
@@ -450,12 +421,5 @@ class CoursePortalRepository {
     throw UnimplementedError('Add Supabase dependency first');
   }
 
-  // =============================
-  // REAL-TIME SUBSCRIPTIONS
-  // =============================
-
-  /// Subscribe to group chat messages
-  // RealtimeChannel subscribeToGroupChat(String courseId, Function(Map<String, dynamic>) onMessage) {
-  //   return _supabase.channel('group_chat_$courseId')...
-  // }
+  
 }
