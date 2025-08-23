@@ -4,14 +4,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'services/supabase_config.dart';
+import 'services/storage_service.dart';
 import 'providers/theme_provider.dart';
 import 'providers/language_provider.dart';
-import '../providers/learner_provider.dart';
+import 'providers/learner_provider.dart';
+import 'providers/course_provider.dart';
 import 'l10n/app_localizations.dart';
-import '../providers/instructor_provider.dart';
-import '../providers/auth_provider.dart';
+import 'providers/instructor_provider.dart';
+import 'providers/auth_provider.dart';
+import 'providers/online_session_provider.dart';
+import 'providers/record_class_provider.dart';
+import 'providers/study_material_provider.dart';
+import 'providers/group_chat_provider.dart';
+import 'providers/feedback_provider.dart';
+import 'providers/revenue_provider.dart';
+import 'providers/chat_provider.dart';
 
-import '../screens/auth/landing_page.dart';
+import 'screens/auth/landing_page.dart';
 import 'screens/permissions/permission_wrapper.dart';
 import 'package:sayhello_app_frontend/screens/auth/learner_signin.dart';
 import 'package:sayhello_app_frontend/screens/auth/instructor_signin.dart';
@@ -28,6 +37,14 @@ void main() async {
   // Initialize Supabase
   await SupabaseConfig.initialize();
 
+  // Initialize storage
+  try {
+    await StorageService().initializeStorage();
+    print('Storage initialized successfully');
+  } catch (e) {
+    print('Failed to initialize storage: $e');
+  }
+
   // Set preferred orientations for better video experience
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -43,7 +60,15 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => LearnerProvider()),
         ChangeNotifierProvider(create: (_) => InstructorProvider()),
+        ChangeNotifierProvider(create: (_) => CourseProvider()),
+        ChangeNotifierProvider(create: (_) => OnlineSessionProvider()),
+        ChangeNotifierProvider(create: (_) => RecordClassProvider()),
+        ChangeNotifierProvider(create: (_) => StudyMaterialProvider()),
+        ChangeNotifierProvider(create: (_) => GroupChatProvider()),
+        ChangeNotifierProvider(create: (_) => FeedbackProvider()),
+        ChangeNotifierProvider(create: (_) => RevenueProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
       ],
       child: const MyApp(),
     ),
@@ -105,14 +130,16 @@ class MyApp extends StatelessWidget {
 
       initialRoute: '/',
       routes: {
-        '/': (context) => const PermissionWrapper(),
-        '/landing': (context) => const LandingPage(),
-        '/learner-signin': (context) => const LearnerSignInPage(),
-        '/instructor-signin': (context) => const InstructorSignInPage(),
-        '/learner-signup': (context) => const LearnerSignupPage(),
-        '/instructor-signup': (context) => const InstructorSignupPage(),
-        '/learner-main': (context) => const LearnerMainTab(),
-        '/instructor-main': (context) => const InstructorMainTab(),
+        '/': (BuildContext context) => const PermissionWrapper(),
+        '/landing': (BuildContext context) => const LandingPage(),
+        '/learner-signin': (BuildContext context) => const LearnerSignInPage(),
+        '/instructor-signin': (BuildContext context) =>
+            const InstructorSignInPage(),
+        '/learner-signup': (BuildContext context) => const LearnerSignupPage(),
+        '/instructor-signup': (BuildContext context) =>
+            const InstructorSignupPage(),
+        '/learner-main': (BuildContext context) => const LearnerMainTab(),
+        '/instructor-main': (BuildContext context) => const InstructorMainTab(),
       },
     );
   }
