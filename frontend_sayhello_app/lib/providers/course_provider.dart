@@ -1,12 +1,15 @@
 /// Course Provider - State management for course-related operations
 /// Handles courses, enrollments, and course portal functionality
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../data/data.dart';
+import '../../lib/services/storage_service.dart';
 
 class CourseProvider extends ChangeNotifier {
   final CourseRepository _repository = CourseRepository();
+  final StorageService _storage = StorageService();
 
   // Course state
   List<Course> _courses = [];
@@ -80,12 +83,24 @@ class CourseProvider extends ChangeNotifier {
 
   /// Load courses by instructor
   Future<void> loadInstructorCourses(String instructorId) async {
+    if (_courses.isNotEmpty &&
+        !_courses.any((c) => c.instructorId != instructorId)) {
+      // Return cached data if we have it and it's for the same instructor
+      return;
+    }
+
     _setLoading(true);
     _clearError();
 
     try {
-      _courses = await _repository.getCoursesByInstructor(instructorId);
+      _courses = await _repository.getCoursesByInstructor(
+        instructorId,
+        limit: 10, // Start with fewer courses for faster initial load
+      );
       notifyListeners();
+
+      // Load more courses in the background
+      _loadMoreInstructorCourses(instructorId, skip: 10);
     } catch (e) {
       _setError('Failed to load instructor courses: $e');
     } finally {
@@ -93,13 +108,50 @@ class CourseProvider extends ChangeNotifier {
     }
   }
 
-  /// Create new course
-  Future<bool> createCourse(Course course) async {
+  /// Load additional instructor courses in the background
+  Future<void> _loadMoreInstructorCourses(
+    String instructorId, {
+    int skip = 10,
+  }) async {
+    try {
+      final moreCourses = await _repository.getCoursesByInstructor(
+        instructorId,
+        limit: 40,
+      );
+
+      // Add only new courses that aren't already in the list
+      final newCourses = moreCourses
+          .where((course) => !_courses.any((c) => c.id == course.id))
+          .toList();
+
+      if (newCourses.isNotEmpty) {
+        _courses.addAll(newCourses);
+        notifyListeners();
+      }
+    } catch (e) {
+      print('Background load failed: $e');
+    }
+  }
+
+  /// Create new course with optional thumbnail
+  Future<bool> createCourse(
+    Map<String, dynamic> courseData, [
+    File? thumbnail,
+  ]) async {
     _setLoading(true);
     _clearError();
 
     try {
-      final newCourse = await _repository.createCourse(course);
+      // If thumbnail provided, upload it first
+      if (thumbnail != null) {
+        final thumbnailUrl = await _storage.uploadCourseThumbnail(
+          thumbnail,
+          DateTime.now().millisecondsSinceEpoch.toString(),
+        );
+        courseData['thumbnail_url'] = thumbnailUrl;
+      }
+
+      final newCourse = await _repository.createCourse(courseData);
       _courses.insert(0, newCourse);
       notifyListeners();
       return true;
@@ -375,6 +427,16 @@ class CourseProvider extends ChangeNotifier {
     _isSearching = false;
     _error = null;
     notifyListeners();
+  }
+
+  /// Get average rating for a course
+  Future<double> getCourseAverageRating(String courseId) async {
+    try {
+      return await _repository.getCourseAverageRating(courseId);
+    } catch (e) {
+      debugPrint('Failed to get course average rating: $e');
+      return 0.0;
+    }
   }
 
   @override
