@@ -331,4 +331,4 @@ class NotificationSummary {
   String toString() {
     return 'NotificationSummary(total: $totalCount, unread: $unreadCount)';
   }
-
+}
