@@ -145,4 +145,4 @@ class Course {
 
   @override
   int get hashCode => id.hashCode;
-}
+
