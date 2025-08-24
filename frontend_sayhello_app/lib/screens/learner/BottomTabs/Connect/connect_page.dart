@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../providers/theme_provider.dart';
 import 'others_profile_page.dart';
-import '../../Notifications/notifications.dart';
-import '../../../../providers/settings_provider.dart';
 
 class Partner {
   final String name;
   final String message;
   final String avatar;
-  final String gender; // 'male' or 'female'
-  final List<String> interests;
+  final bool vip;
+  final bool recentlyActive;
+  final bool activeNow;
+  final List<String> tags;
   final String nativeLanguage;
   final String learningLanguage;
-  final String region;
-  final String city;
 
   Partner({
     required this.name,
     required this.message,
     required this.avatar,
-    required this.gender,
-    this.interests = const [],
+    this.vip = false,
+    this.recentlyActive = false,
+    this.activeNow = false,
+    this.tags = const [],
     required this.nativeLanguage,
     required this.learningLanguage,
-    required this.region,
-    required this.city,
   });
 }
 
 class ConnectPage extends StatefulWidget {
-  const ConnectPage({Key? key}) : super(key: key);
+  const ConnectPage({super.key});
 
   @override
   State<ConnectPage> createState() => _ConnectPageState();
@@ -37,32 +37,10 @@ class ConnectPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectPage> {
   int selectedTopTabIndex = 0;
-  final TextEditingController _searchController = TextEditingController();
-  List<String> availableLanguages = []; // This will come from backend
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAvailableLanguages();
-  }
-
-  // Placeholder method for backend integration
-  void _loadAvailableLanguages() {
-    // This will be replaced with actual backend call
-    setState(() {
-      availableLanguages = [
-        'Japanese',
-        'English',
-        'Spanish',
-        'Korean',
-        'Bengali',
-      ];
-    });
-  }
 
   List<String> get topTabs => [
     AppLocalizations.of(context)!.all,
-    AppLocalizations.of(context)!.sharedInterests,
+    AppLocalizations.of(context)!.seriousLearners,
     AppLocalizations.of(context)!.nearby,
     AppLocalizations.of(context)!.gender,
   ];
@@ -72,107 +50,81 @@ class _ConnectPageState extends State<ConnectPage> {
       name: 'Yusuke',
       message: 'My name is Yusuke from Japan...',
       avatar: 'https://picsum.photos/seed/b/60',
-      gender: 'male',
-      interests: ['Football', 'Basketball', 'Reading'],
+      vip: true,
+      recentlyActive: true,
+      tags: ['Very active', 'ISTJ', 'Football', 'Basketball'],
       nativeLanguage: 'JP',
       learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Tokyo',
     ),
     Partner(
-      name: 'かえде',
+      name: 'かえで',
       message: 'Just joined HT\nTap to say Hi!',
       avatar: 'https://picsum.photos/seed/a/60',
-      gender: 'female',
-      interests: ['Swimming', 'Music'],
+      activeNow: true,
+      tags: ['New', 'Swimming'],
       nativeLanguage: 'JP',
       learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Osaka',
     ),
     Partner(
       name: '藤井徳',
       message: 'Just joined HT\nTap to say Hi!',
       avatar: 'https://picsum.photos/seed/c/60',
-      gender: 'male',
-      interests: ['Cycling', 'Photography'],
+      activeNow: true,
+      tags: ['New', 'Cycling'],
       nativeLanguage: 'JP',
       learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Kyoto',
     ),
     Partner(
       name: 'Sasuke',
       message: 'My name is Sasuke from Tokyo and I love anime!',
       avatar: 'https://picsum.photos/seed/e/60',
-      gender: 'male',
-      interests: ['Soccer', 'Basketball', 'Anime'],
+      vip: true,
+      recentlyActive: true,
+      tags: ['Very active', 'ISTJ', 'Soccer', 'Basketball'],
       nativeLanguage: 'JP',
       learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Tokyo',
     ),
     Partner(
-      name: 'えかえで',
-      message: 'Just joined HT. Tap to say Hi! I love to play games.',
-      avatar: 'https://picsum.photos/seed/g/60',
-      gender: 'female',
-      interests: ['Gaming', 'Singing'],
-      nativeLanguage: 'JP',
-      learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Hiroshima',
-    ),
-    Partner(
-      name: '井徳',
+      name: 'えかえででえかえででえかえででえかえででえかえででえかえでで',
       message:
-          'Hi! Everyone, I am new here. I am a big fan of anime and manga.',
-      avatar: 'https://picsum.photos/seed/h/60',
-      gender: 'female',
-      interests: ['Chess', 'Reading'],
+          'Just joined HT. Tap to say Hi! I love to play games. I am a big fan of anime and manga.',
+      avatar: 'https://picsum.photos/seed/g/60',
+      vip: true,
+      activeNow: true,
+      tags: ['New', 'Singing'],
       nativeLanguage: 'JP',
       learningLanguage: 'EN',
-      region: 'Asia',
-      city: 'Nagoya',
+    ),
+    Partner(
+      name: '井徳井藤井徳',
+      message:
+          'Hi! Everyone, I am new here. I am a big fan of anime and manga. ',
+      avatar: 'https://picsum.photos/seed/h/60',
+      activeNow: true,
+      tags: ['New', 'Chess'],
+      nativeLanguage: 'JP',
+      learningLanguage: 'EN',
     ),
   ];
 
   List<Partner> get filteredPartners {
-    List<Partner> filtered = allPartners;
-
-    // Apply search filter
-    if (_searchController.text.isNotEmpty) {
-      String searchTerm = _searchController.text.toLowerCase();
-      filtered = filtered
-          .where(
-            (p) =>
-                p.name.toLowerCase().contains(searchTerm) ||
-                p.message.toLowerCase().contains(searchTerm) ||
-                p.interests.any(
-                  (interest) => interest.toLowerCase().contains(searchTerm),
-                ),
-          )
-          .toList();
-    }
-
-    // Apply top tab filters
     switch (selectedTopTabIndex) {
-      case 1: // Shared Interests
-        // This will be implemented with backend integration
-        return filtered;
-      case 2: // Nearby
-        // This will be implemented with backend integration
-        return filtered;
-      case 3: // Gender (opposite gender)
-        // This will be implemented with user gender preference
-        return filtered;
-      default: // All
-        return filtered;
+      case 1:
+        return allPartners
+            .where((p) => p.tags.contains('Very active'))
+            .toList();
+      case 2:
+        return allPartners
+            .where((p) => p.tags.contains('Similar age range'))
+            .toList();
+      default:
+        return allPartners;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? Colors.white : Colors.black;
     final chipSelectedBg = isDark
@@ -185,87 +137,43 @@ class _ConnectPageState extends State<ConnectPage> {
     final dividerColor = isDark ? Colors.grey.shade800 : Colors.grey.shade300;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(52),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          scrolledUnderElevation: 0,
-          title: Row(
-            children: [
-              // 🔧 SETTINGS ICON - This is the settings button in the app bar
-              // Click this to open the settings bottom sheet with theme and language options
-              IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-                onPressed: () =>
-                    SettingsProvider.showSettingsBottomSheet(context),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        scrolledUnderElevation: 0,
+        title: Row(
+          children: [
+            const SizedBox(width: 10),
+            // Theme toggle button
+            // Use the theme provider to toggle dark/light mode
+            IconButton(
+              icon: Icon(
+                themeProvider.themeMode == ThemeMode.dark
+                    ? Icons
+                          .light_mode // Currently dark → show light icon
+                    : Icons.dark_mode, // Currently light → show dark icon
               ),
-
-              const SizedBox(width: 40),
-
-              Expanded(
-                child: Text(
-                  AppLocalizations.of(context)!.findPartners,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                ),
+              onPressed: () {
+                bool toDark = themeProvider.themeMode != ThemeMode.dark;
+                themeProvider.toggleTheme(toDark);
+              },
+            ),
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context)!.findPartners,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
-
-              // 🔔 NOTIFICATION ICON - This is the notification button in the app bar
-              Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.notifications_outlined,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationsPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  // Red dot for unread notifications
-                  Positioned(
-                    right: 11,
-                    top: 11,
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(minWidth: 12, minHeight: 12),
-                      child: Text(
-                        '3', // Number of unread notifications
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              IconButton(
-                icon: Icon(Icons.more_vert, color: textColor),
-                onPressed: () {
-                  showSearchFilterSheet(context);
-                },
-              ),
-            ],
-          ),
+            ),
+            // IconButton(icon: Icon(Icons.flash_on, color: textColor), onPressed: () {}),
+            IconButton(
+              icon: Icon(Icons.more_vert, color: textColor),
+              onPressed: () {
+                showSearchFilterSheet(context);
+              },
+            ),
+          ],
         ),
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -306,63 +214,13 @@ class _ConnectPageState extends State<ConnectPage> {
             ),
           ),
 
-          // Search Field
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (value) => setState(() {}),
-                decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.searchPeople,
-                  hintStyle: TextStyle(
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                  ),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: Icon(
-                            Icons.clear,
-                            color: isDark
-                                ? Colors.grey.shade400
-                                : Colors.grey.shade600,
-                          ),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {});
-                          },
-                        )
-                      : null,
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                ),
-                style: TextStyle(color: isDark ? Colors.white : Colors.black),
-              ),
-            ),
-          ),
-
-          // Language Tabs (will be populated from backend)
+          // Language Tabs
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  // Placeholder - will be replaced with backend data
-                  languageTab('Japanese', selected: true, isDark: isDark),
-                  // More language tabs will be added from backend
-                ],
-              ),
+            child: Row(
+              children: [
+                languageTab('Japanese', selected: true, isDark: isDark),
+              ],
             ),
           ),
 
@@ -441,6 +299,21 @@ class _ConnectPageState extends State<ConnectPage> {
                       radius: 28,
                       backgroundImage: NetworkImage(partner.avatar),
                     ),
+                    if (partner.recentlyActive || partner.activeNow)
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: isDark ? Colors.black : Colors.white,
+                          child: CircleAvatar(
+                            radius: 4,
+                            backgroundColor: partner.recentlyActive
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
                 const SizedBox(width: 12),
@@ -448,7 +321,7 @@ class _ConnectPageState extends State<ConnectPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Name + Gender
+                      // Name + VIP
                       Row(
                         children: [
                           Flexible(
@@ -464,28 +337,28 @@ class _ConnectPageState extends State<ConnectPage> {
                               maxLines: 1,
                             ),
                           ),
-                          SizedBox(width: 8),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
+                          if (partner.vip)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Text(
+                                  'NEW',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color: partner.gender == 'female'
-                                  ? Color(0xFFFEEDF7)
-                                  : Color(0xFFE3F2FD),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              partner.gender == 'male'
-                                  ? Icons.male
-                                  : Icons.female,
-                              color: partner.gender == 'male'
-                                  ? Color(0xFF1976D2)
-                                  : Color(0xFFD619A8),
-                              size: 16,
-                            ),
-                          ),
                         ],
                       ),
 
@@ -565,25 +438,33 @@ class _ConnectPageState extends State<ConnectPage> {
 
                       const SizedBox(height: 6),
 
-                      // Interests
+                      // Tags
                       Wrap(
                         spacing: 4,
                         runSpacing: -6,
-                        children: partner.interests.map((interest) {
+                        children: partner.tags.map((tag) {
+                          final isNew = tag.toLowerCase() == 'new';
+                          final bgColor = isNew
+                              ? Colors.orange.shade100
+                              : Colors.green.shade100;
+                          final textColor = isNew
+                              ? Colors.orange
+                              : Colors.green;
+
                           return Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 6,
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.green.shade100,
+                              color: bgColor,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              interest,
+                              tag,
                               style: TextStyle(
                                 fontSize: 10,
-                                color: Colors.green,
+                                color: textColor,
                                 fontWeight: FontWeight.w600,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -630,7 +511,7 @@ void showSearchFilterSheet(BuildContext context) {
 }
 
 class SearchFilterSheet extends StatefulWidget {
-  const SearchFilterSheet({Key? key}) : super(key: key);
+  const SearchFilterSheet({super.key});
 
   @override
   State<SearchFilterSheet> createState() => _SearchFilterSheetState();
@@ -639,6 +520,7 @@ class SearchFilterSheet extends StatefulWidget {
 class _SearchFilterSheetState extends State<SearchFilterSheet> {
   double _currentAgeStart = 18;
   double _currentAgeEnd = 90;
+  bool _newUsersOnly = false;
   int _selectedGenderIndex = 0;
   final List<String> genders = ['All', 'Male', 'Female'];
 
@@ -647,73 +529,11 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
     AppLocalizations.of(context)!.male,
     AppLocalizations.of(context)!.female,
   ];
-
-  // Expanded regions and cities for the 5 languages
-  final List<String> regions = [
-    'Asia',
-    'Europe',
-    'North America',
-    'South America',
-    'Africa',
-    'Oceania',
-  ];
-
-  final Map<String, List<String>> citiesByRegion = {
-    'Asia': [
-      'Tokyo',
-      'Seoul',
-      'Beijing',
-      'Shanghai',
-      'Dhaka',
-      'Mumbai',
-      'Bangkok',
-      'Manila',
-    ],
-    'Europe': [
-      'London',
-      'Paris',
-      'Berlin',
-      'Madrid',
-      'Rome',
-      'Amsterdam',
-      'Vienna',
-      'Prague',
-    ],
-    'North America': [
-      'New York',
-      'Los Angeles',
-      'Toronto',
-      'Vancouver',
-      'Mexico City',
-      'Montreal',
-    ],
-    'South America': [
-      'São Paulo',
-      'Buenos Aires',
-      'Lima',
-      'Bogotá',
-      'Santiago',
-      'Caracas',
-    ],
-    'Africa': ['Cairo', 'Lagos', 'Cape Town', 'Nairobi', 'Casablanca', 'Tunis'],
-    'Oceania': [
-      'Sydney',
-      'Melbourne',
-      'Auckland',
-      'Brisbane',
-      'Perth',
-      'Adelaide',
-    ],
-  };
-
+  final List<String> regions = ['Asia', 'Europe', 'America'];
+  final List<String> cities = ['Tokyo', 'Paris', 'New York'];
   String? _selectedRegion;
   String? _selectedCity;
   int _selectedProficiency = 4;
-
-  List<String> get availableCities {
-    if (_selectedRegion == null) return [];
-    return citiesByRegion[_selectedRegion] ?? [];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -733,8 +553,8 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                     onTap: () => Navigator.pop(context),
                     child: const Icon(Icons.close),
                   ),
-                  Text(
-                    AppLocalizations.of(context)!.search,
+                  const Text(
+                    'Search',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   TextButton(
@@ -742,6 +562,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                       setState(() {
                         _currentAgeStart = 18;
                         _currentAgeEnd = 90;
+                        _newUsersOnly = false;
                         _selectedGenderIndex = 0;
                         _selectedRegion = null;
                         _selectedCity = null;
@@ -792,6 +613,16 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                 }),
               ),
               const SizedBox(height: 16),
+              SwitchListTile(
+                value: _newUsersOnly,
+                onChanged: (val) => setState(() => _newUsersOnly = val),
+                title: Text(
+                  AppLocalizations.of(context)!.newUsers,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                contentPadding: EdgeInsets.zero,
+              ),
+              const SizedBox(height: 8),
               Text(
                 AppLocalizations.of(context)!.age,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -838,10 +669,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                 items: regions.map((region) {
                   return DropdownMenuItem(value: region, child: Text(region));
                 }).toList(),
-                onChanged: (val) => setState(() {
-                  _selectedRegion = val;
-                  _selectedCity = null; // Reset city when region changes
-                }),
+                onChanged: (val) => setState(() => _selectedRegion = val),
               ),
               const SizedBox(height: 10),
               DropdownButtonFormField<String>(
@@ -852,7 +680,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                   border: OutlineInputBorder(),
                 ),
                 value: _selectedCity,
-                items: availableCities.map((city) {
+                items: cities.map((city) {
                   return DropdownMenuItem(value: city, child: Text(city));
                 }).toList(),
                 onChanged: (val) => setState(() => _selectedCity = val),
@@ -937,8 +765,8 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                       vertical: 14,
                     ),
                   ),
-                  child: Text(
-                    AppLocalizations.of(context)!.search,
+                  child: const Text(
+                    'Search',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

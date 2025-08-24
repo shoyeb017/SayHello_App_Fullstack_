@@ -4,8 +4,12 @@
 export 'learner.dart';
 export 'instructor.dart';
 export 'course.dart';
-export 'enrollment.dart';
+export 'course_session.dart';
+export 'course_enrollment.dart';
 export 'course_portal.dart';
 export 'chat.dart';
 export 'feed.dart';
 export 'notification.dart';
+export 'record_class.dart';
+export 'study_material.dart';
+export 'feedback.dart';
